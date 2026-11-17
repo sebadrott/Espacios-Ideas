@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IDEA SPACE — Laboratorio de ideas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Color (DESIGN.md) */
+  --bg: #FBFAF7;
+  --surface-track: #EBE8E0;
+  --ink: #1A1A1A;
+  --ink-muted: #5E5E5E;
+  --ink-faint: #6F6C66; /* Ajustado para contraste AA en texto pequeño */
+  --border: #E2DFD7;
+  --accent-primary: #C94A2B;
+  --accent-secondary: #2D5A72;
+
+  /* Tipografía */
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Espaciado (base 4px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Layout */
+  --editorial-max: 720px;
+  --workspace-max: 1120px;
+  --bar-height: 16px;
+  --radius: 0px;
+  --hairline: 1px solid var(--border);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea, select {
+  font: inherit;
+  border-radius: var(--radius);
+}
+
+button { cursor: pointer; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 2px;
+}
+
+/* Tipografía base */
+h1, h2, h3, .kpi-value {
+  font-family: var(--font-display);
+  font-weight: 400;
+  margin: 0;
+}
+
+.eyebrow, .label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+/* Header editorial */
+.topbar {
+  border-bottom: var(--hairline);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.topbar-inner {
+  max-width: var(--workspace-max);
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.brand {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--ink);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.brand span { color: var(--accent-primary); }
+
+.breadcrumb {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-left: var(--hairline);
+  padding-left: var(--space-4);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* Botones rectos sin sombra */
+.btn {
+  border: var(--hairline);
+  background: transparent;
+  color: var(--ink);
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover { border-color: var(--ink); }
+
+.btn.primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.btn.primary:hover {
+  background: #333333;
+  border-color: #333333;
+}
+
+.btn.accent-primary {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg);
+}
+
+.btn.accent-secondary {
+  background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  color: var(--bg);
+}
+
+.btn.danger {
+  color: var(--accent-primary);
+  border-color: var(--border);
+}
+
+.btn.danger:hover {
+  border-color: var(--accent-primary);
+  background: #f8efec;
+}
+
+.btn.small {
+  padding: 6px 11px;
+  font-size: 11px;
+}
+
+/* Contenedor Home (1 columna editorial) */
+.home {
+  max-width: var(--editorial-max);
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-6) var(--space-16);
+}
+
+.home.hidden { display: none; }
+
+.hero {
+  margin-bottom: var(--space-12);
+}
+
+.hero h1 {
+  font-size: clamp(38px, 6vw, 52px);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.hero h1 em {
+  color: var(--accent-primary);
+  font-style: italic;
+}
+
+.hero-lead {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-muted);
+  margin: 0 0 var(--space-6);
+  max-width: 580px;
+}
+
+.hero-lead strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+/* Callout (5.5 DESIGN.md) */
+.callout {
+  border-left: 2px solid var(--accent-primary);
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+}
+
+.callout p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.callout-sub {
+  margin-top: var(--space-2) !important;
+  font-family: var(--font-text) !important;
+  font-size: 12px !important;
+  color: var(--ink-muted) !important;
+}
+
+/* Tarjetas KPI lado a lado (5.2 DESIGN.md) */
+.kpi-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: var(--hairline);
+  margin-bottom: var(--space-12);
+  background: var(--bg);
+}
+
+.kpi-cell {
+  padding: var(--space-4) var(--space-6);
+}
+
+.kpi-cell + .kpi-cell {
+  border-left: var(--hairline);
+}
+
+.kpi-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.kpi-value {
+  font-size: 30px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+/* Sección de Espacios */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: var(--hairline);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-6);
+  gap: var(--space-4);
+}
+
+.section-head h2 {
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.space-card {
+  position: relative;
+  border: var(--hairline);
+  background: var(--bg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  min-height: 185px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.space-card:hover {
+  border-color: var(--ink);
+  background: #F6F4EE;
+}
+
+.space-card-del {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  width: 28px;
+  height: 28px;
+  border: var(--hairline);
+  background: var(--bg);
+  color: var(--ink-faint);
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.space-card-del:hover {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.card-index {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  padding-right: 32px;
+}
+
+.space-card h3 {
+  font-size: 26px;
+  line-height: 1.15;
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+.space-card p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.card-meta {
+  margin-top: auto;
+  padding-top: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Pie editorial (5.6 DESIGN.md) */
+.editorial-footer {
+  margin-top: var(--space-16);
+  padding-top: var(--space-4);
+  border-top: var(--hairline);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+/* Editor View */
+.editor {
+  display: none;
+  max-width: var(--workspace-max);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) var(--space-16);
+}
+
+.editor.active { display: block; }
+
+.editor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: var(--hairline);
+}
+
+.editor-head-text {
+  max-width: 620px;
+  min-width: 0;
+}
+
+.editor-head h1 {
+  font-size: clamp(32px, 4.5vw, 44px);
+  line-height: 1.08;
+  margin: var(--space-2) 0;
+}
+
+.editor-head p {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* Marco Canvas + Inspector (sin radio, dividido por filete) */
+.editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  border: var(--hairline);
+  background: var(--bg);
+}
+
+.canvas-shell {
+  background: var(--surface-track);
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+}
+
+.canvas-top {
+  position: absolute;
+  z-index: 3;
+  top: var(--space-3);
+  left: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+.canvas-top > * { pointer-events: auto; }
+
+.canvas-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: var(--bg);
+  border: var(--hairline);
+  padding: 5px 9px;
+}
+
+.canvas-tools {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.canvas-tools .btn {
+  background: var(--bg);
+}
+
+#map {
+  width: 100%;
+  height: 560px;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+#map.panning { cursor: grabbing; }
+
+/* Elementos SVG dentro del mapa */
+.edge-hit {
+  stroke: transparent;
+  stroke-width: 16;
+  fill: none;
+  cursor: pointer;
+}
+
+.edge {
+  stroke: #C8C3B8;
+  stroke-width: 1.5;
+  fill: none;
+  pointer-events: none;
+  transition: stroke 0.15s ease;
+}
+
+.edge.selected {
+  stroke: var(--accent-primary);
+  stroke-width: 2.5;
+}
+
+.node { cursor: grab; }
+.node:active { cursor: grabbing; }
+
+.node rect {
+  fill: var(--bg);
+  stroke: var(--border);
+  stroke-width: 1.2;
+}
+
+.node.central rect {
+  fill: var(--ink);
+  stroke: var(--ink);
+}
+
+.node.selected rect {
+  stroke: var(--accent-primary);
+  stroke-width: 2.2;
+}
+
+.node.connect-source rect {
+  stroke: var(--accent-secondary);
+  stroke-width: 2.2;
+  stroke-dasharray: 4 3;
+}
+
+.node text {
+  pointer-events: none;
+  fill: var(--ink);
+}
+
+.node.central text {
+  fill: var(--bg);
+}
+
+.node .node-kicker {
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  fill: var(--accent-secondary);
+}
+
+.node.central .node-kicker,
+.node.exploracion .node-kicker {
+  fill: var(--accent-primary);
+}
+
+.node .node-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+
+.node .node-desc {
+  font-size: 10.5px;
+  fill: var(--ink-muted);
+}
+
+.node.central .node-desc {
+  fill: #D5D2CA;
+}
+
+.node-del { cursor: pointer; }
+.node-del rect {
+  fill: var(--bg);
+  stroke: var(--border);
+  stroke-width: 1;
+}
+.node-del line {
+  stroke: var(--ink-faint);
+  stroke-width: 1.4;
+}
+.node-del:hover rect {
+  stroke: var(--accent-primary);
+  fill: #f8efec;
+}
+.node-del:hover line {
+  stroke: var(--accent-primary);
+}
+
+/* Inspector */
+.inspector {
+  background: var(--bg);
+  border-left: var(--hairline);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+}
+
+.inspector h3 {
+  font-size: 26px;
+  line-height: 1.15;
+  margin: var(--space-2) 0 var(--space-4);
+}
+
+.field {
+  display: grid;
+  gap: 5px;
+  margin-bottom: var(--space-4);
+}
+
+.field label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: var(--hairline);
+  background: var(--bg);
+  padding: 9px 10px;
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--ink);
+}
+
+.field textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
+.inspector-empty {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--ink-muted);
+  margin-bottom: var(--space-4);
+}
+
+.inspector-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.hint {
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.55;
+  margin-top: auto;
+  padding-top: var(--space-6);
+  border-top: var(--hairline);
+}
+
+/* Barra de estado */
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+  color: var(--ink-faint);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Bloque editorial inferior: Barras + Desglose (5.3 & 5.4 DESIGN.md) */
+.editorial-analysis {
+  max-width: var(--editorial-max);
+  margin: var(--space-12) auto 0;
+}
+
+.editorial-analysis h2 {
+  font-size: 24px;
+  margin-bottom: var(--space-6);
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.step-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.step-title span {
+  color: var(--ink-faint);
+  font-weight: 400;
+  margin-right: 4px;
+}
+
+.step-ratio {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-primary);
+  text-align: right;
+}
+
+.bar-group {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 92px 1fr 78px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.bar-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.bar-track {
+  background: var(--surface-track);
+  height: var(--bar-height);
+  width: 100%;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  transition: width 0.4s ease-out;
+}
+
+.bar-fill--primary { background: var(--accent-primary); }
+.bar-fill--secondary { background: var(--accent-secondary); }
+
+.bar-value {
+  font-size: 11px;
+  color: var(--ink);
+  text-align: right;
+}
+
+/* Tabla de desglose (5.4 DESIGN.md) */
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--space-4);
+}
+
+.breakdown-table tr {
+  border-bottom: var(--hairline);
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.breakdown-table tbody tr:hover {
+  background: #F4F2EC;
+}
+
+.breakdown-table tbody tr.active-row {
+  background: #F4EFE8;
+}
+
+.breakdown-table td {
+  padding: 9px 4px;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.breakdown-table td.td-meta {
+  color: var(--ink-muted);
+  font-size: 11px;
+}
+
+.breakdown-table td.td-num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.breakdown-table tfoot tr {
+  border-bottom: none;
+  cursor: default;
+}
+
+.breakdown-table tfoot td {
+  font-weight: 600;
+  padding-top: 12px;
+}
+
+.breakdown-note {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: var(--space-3);
+}
+
+/* Modal sin sombras ni radios */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.35);
+  z-index: 40;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.modal-backdrop.open { display: flex; }
+
+.modal {
+  background: var(--bg);
+  border: 1px solid var(--ink);
+  width: min(440px, 100%);
+  padding: var(--space-8);
+}
+
+.modal h2 {
+  font-size: 30px;
+  margin: var(--space-2) 0 var(--space-6);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+/* Toast sin sombras */
+.toast {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 10px 16px;
+  font-size: 12px;
+  z-index: 50;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.toast-undo {
+  border: 1px solid rgba(251, 250, 247, 0.4);
+  background: transparent;
+  color: var(--bg);
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.toast-undo:hover {
+  background: rgba(251, 250, 247, 0.14);
+}
+
+/* Modo Presentación */
+.present-exit { display: none !important; }
+.presentation .present-exit { display: inline-flex !important; }
+.presentation .topbar,
+.presentation .inspector,
+.presentation .canvas-tools,
+.presentation .editor-actions,
+.presentation .editorial-analysis {
+  display: none !important;
+}
+
+.presentation .editor {
+  max-width: 1400px;
+  padding-top: var(--space-6);
+}
+
+.presentation .editor-head {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+
+.presentation .editor-layout {
+  grid-template-columns: 1fr;
+}
+
+.presentation .canvas-shell {
+  min-height: calc(100vh - 200px);
+}
+
+.presentation #map {
+  height: calc(100vh - 200px);
+  min-height: 440px;
+}
+
+/* Responsive Tablet (<= 920px) */
+@media (max-width: 920px) {
+  .editor-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .editor-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .inspector {
+    border-left: none;
+    border-top: var(--hairline);
+  }
+
+  .canvas-shell, #map {
+    min-height: 460px;
+    height: 460px;
+  }
+}
+
+/* Responsive Móvil (<= 600px) */
+@media (max-width: 600px) {
+  .topbar-inner {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .breadcrumb {
+    display: none;
+  }
+
+  .home {
+    padding: var(--space-8) var(--space-4) var(--space-12);
+  }
+
+  .editor {
+    padding: var(--space-6) var(--space-4) var(--space-12);
+  }
+
+  .kpi-pair {
+    grid-template-columns: 1fr;
+    margin-bottom: var(--space-8);
+  }
+
+  .kpi-cell + .kpi-cell {
+    border-left: none;
+    border-top: var(--hairline);
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .canvas-shell, #map {
+    min-height: 390px;
+    height: 390px;
+  }
+
+  .bar-row {
+    grid-template-columns: 78px 1fr 64px;
+    gap: var(--space-2);
+  }
+
+  .step-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .modal {
+    padding: var(--space-6);
+  }
+
+  .toast {
+    left: var(--space-4);
+    right: var(--space-4);
+    bottom: var(--space-4);
+    justify-content: space-between;
+  }
+
+  .presentation #map {
+    height: calc(100vh - 180px);
+    min-height: 340px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-group">
+      <button class="brand" id="brandHome" aria-label="Ir al inicio">IDEA <span>·</span> SPACE</button>
+      <div class="breadcrumb" id="breadcrumb">ARCHIVO</div>
+    </div>
+    <div class="top-actions">
+      <button class="btn small" id="backHomeBtn" style="display:none">← Archivo</button>
+      <button class="btn small primary" id="newSpaceTop">＋ Nuevo espacio</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Vista Inicio (Editorial de 1 columna) -->
+  <section class="home" id="home">
+    <div class="hero">
+      <div class="eyebrow">Laboratorio de pensamiento · Archivo privado</div>
+      <h1>Las ideas necesitan <em>espacio</em> para volverse claras.</h1>
+      <p class="hero-lead">Un lugar sobrio para pensar despacio. Registra conceptos, <strong>descubre relaciones</strong> y convierte intuiciones dispersas en mapas que tienen forma —y sentido—.</p>
+      <div class="hero-actions">
+        <button class="btn primary" id="createSpace">Crear un espacio nuevo ↗</button>
+      </div>
+      <div class="callout">
+        <p>“Una idea no aparece terminada. Aparece como pregunta; se vuelve mapa cuando la conectas.”</p>
+        <p class="callout-sub">Cada mapa se guarda solo, en tu navegador. Sin cuentas, sin nube, sin ruido.</p>
+      </div>
+    </div>
+
+    <div class="kpi-pair" aria-label="Resumen del archivo">
+      <div class="kpi-cell">
+        <span class="kpi-label">Espacios abiertos</span>
+        <div class="kpi-value" id="kpiSpaces">01</div>
+      </div>
+      <div class="kpi-cell">
+        <span class="kpi-label">Conceptos en el archivo</span>
+        <div class="kpi-value" id="kpiNodes">07</div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <h2>Espacios de pensamiento</h2>
+      <span class="eyebrow" id="spaceCount">01 ESPACIO EN CURSO</span>
+    </div>
+
+    <div class="cards" id="spaceCards"></div>
+
+    <footer class="editorial-footer">
+      <span>IDEA · SPACE — ARCHIVO PRIVADO</span>
+      <span>Pensar · Conectar · Desarrollar</span>
+    </footer>
+  </section>
+
+  <!-- Vista Editor -->
+  <section class="editor" id="editor">
+    <div class="editor-head">
+      <div class="editor-head-text">
+        <div class="eyebrow">MAPA / <span id="mapNumber">001</span></div>
+        <h1 id="spaceTitle">Ecosistema de ideas</h1>
+        <p id="spaceDescription">Un punto de partida para explorar relaciones.</p>
+      </div>
+      <div class="editor-actions">
+        <button class="btn small" id="editSpaceBtn">Editar espacio</button>
+        <button class="btn small" id="addNode">＋ Añadir concepto</button>
+        <button class="btn small" id="connectMode">Conectar conceptos</button>
+        <button class="btn small" id="fitMap">Centrar mapa</button>
+        <button class="btn small primary" id="presentMode">Presentar ↗</button>
+      </div>
+    </div>
+
+    <div class="editor-layout">
+      <div class="canvas-shell">
+        <div class="canvas-top">
+          <span class="canvas-label">LIENZO / EXPLORACIÓN LIBRE</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            <button class="btn small primary present-exit" id="exitPresent">← Volver al editor</button>
+            <div class="canvas-tools">
+              <button class="btn small" id="zoomOut" title="Alejar" aria-label="Alejar">−</button>
+              <button class="btn small" id="zoomIn" title="Acercar" aria-label="Acercar">＋</button>
+            </div>
+          </div>
+        </div>
+        <svg id="map" viewBox="0 0 900 560" aria-label="Mapa de ideas interactivo"></svg>
+      </div>
+
+      <aside class="inspector" id="inspector" aria-label="Inspector de concepto"></aside>
+    </div>
+
+    <div class="statusbar">
+      <span id="nodeCount">07 CONCEPTOS</span>
+      <span id="saveStatus">GUARDADO EN ESTE NAVEGADOR</span>
+    </div>
+
+    <!-- Sección Editorial de Análisis y Desglose (5.3 y 5.4 DESIGN.md) -->
+    <div class="editorial-analysis" id="editorialAnalysis"></div>
+  </section>
+</main>
+
+<div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="eyebrow" id="modalEyebrow">NUEVO ESPACIO</div>
+    <h2 id="modalTitle">¿Qué idea quieres explorar?</h2>
+    <div class="field">
+      <label for="modalName">Nombre</label>
+      <input id="modalName" placeholder="Ej. Ecosistema de ideas">
+    </div>
+    <div class="field">
+      <label for="modalDesc">Descripción</label>
+      <textarea id="modalDesc" placeholder="¿Qué pregunta guía este espacio?"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="cancelModal">Cancelar</button>
+      <button class="btn primary" id="saveModal">Crear espacio</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <span id="toastMsg"></span>
+  <button class="toast-undo" id="toastUndo" style="display:none">Deshacer</button>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const uid = () => Math.random().toString(36).slice(2, 10);
+
+const starter = () => ({
+  id: uid(),
+  title: "Ecosistema de ideas",
+  description: "Un punto de partida para explorar relaciones, posibilidades y nuevas direcciones.",
+  updated: Date.now(),
+  nodes: [
+    { id: "root", title: "IDEA CENTRAL", desc: "El punto de partida. Todo comienza con una pregunta.", category: "Núcleo", notes: "Define aquí la intención principal.", x: 450, y: 280, central: true },
+    { id: "n1", title: "Innovación", desc: "Nuevas posibilidades y formas de hacer.", category: "Concepto", notes: "", x: 235, y: 140 },
+    { id: "n2", title: "Estrategia", desc: "Dirección, propósito y decisiones.", category: "Concepto", notes: "", x: 665, y: 140 },
+    { id: "n3", title: "Experiencia", desc: "Personas, contexto y percepción.", category: "Concepto", notes: "", x: 235, y: 420 },
+    { id: "n4", title: "Tecnología", desc: "Herramientas, sistemas y soluciones.", category: "Concepto", notes: "", x: 665, y: 420 },
+    { id: "n5", title: "Oportunidades", desc: "Detectar espacios de mejora.", category: "Exploración", notes: "", x: 105, y: 280 },
+    { id: "n6", title: "Implementación", desc: "Convertir ideas en acciones.", category: "Exploración", notes: "", x: 795, y: 280 }
+  ],
+  edges: [["root", "n1"], ["root", "n2"], ["root", "n3"], ["root", "n4"], ["n1", "n5"], ["n2", "n6"]]
+});
+
+function loadSpaces() {
+  try {
+    const raw = localStorage.getItem("ideaspace.v1");
+    const parsed = raw ? JSON.parse(raw) : null;
+    if (Array.isArray(parsed) && parsed.length) return parsed;
+  } catch (e) { /* fallback */ }
+  return [starter()];
+}
+
+let spaces = loadSpaces();
+let current = spaces[0].id;
+let selected = null;
+let selectedEdge = null;
+let connectMode = false;
+let connectFirst = null;
+let scale = 1;
+let offset = { x: 0, y: 0 };
+let drag = null;
+let panDrag = null;
+let modalMode = "create";
+let editingSpace = null;
+let undoStack = null;
+let toastTimer = null;
+
+function persist() {
+  localStorage.setItem("ideaspace.v1", JSON.stringify(spaces));
+  $("saveStatus").textContent = "GUARDADO EN ESTE NAVEGADOR · " + new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" });
+}
+
+function active() {
+  return spaces.find(s => s.id === current) || spaces[0];
+}
+
+function cloneSpaces() {
+  return JSON.parse(JSON.stringify(spaces));
+}
+
+function esc(s) {
+  return String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function toast(msg, canUndo = false) {
+  $("toastMsg").textContent = msg;
+  $("toastUndo").style.display = canUndo ? "inline-block" : "none";
+  $("toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    $("toast").classList.remove("show");
+    undoStack = null;
+  }, canUndo ? 4500 : 2200);
+}
+
+$("toastUndo").onclick = () => {
+  if (!undoStack) return;
+  spaces = undoStack.spaces;
+  current = undoStack.current;
+  selected = undoStack.selected;
+  selectedEdge = null;
+  undoStack = null;
+  $("toast").classList.remove("show");
+  persist();
+  if ($("editor").classList.contains("active")) renderEditor();
+  else renderHome();
+  toast("Cambio deshecho");
+};
+
+/* Conversión exacta de coordenadas puntero -> SVG (responsive en cualquier pantalla) */
+function clientToSvg(clientX, clientY) {
+  const svg = $("map");
+  const ctm = svg.getScreenCTM();
+  if (!ctm) return { x: 0, y: 0 };
+  const pt = svg.createSVGPoint();
+  pt.x = clientX;
+  pt.y = clientY;
+  return pt.matrixTransform(ctm.inverse());
+}
+
+function deleteNodeById(id) {
+  const s = active();
+  const node = s.nodes.find(x => x.id === id);
+  if (!node || node.central) return;
+  undoStack = { spaces: cloneSpaces(), current, selected };
+  s.nodes = s.nodes.filter(x => x.id !== id);
+  s.edges = s.edges.filter(e => e[0] !== id && e[1] !== id);
+  if (selected === id) selected = null;
+  selectedEdge = null;
+  s.updated = Date.now();
+  persist();
+  renderEditor();
+  toast(`"${node.title}" salió del mapa`, true);
+}
+
+function deleteEdgeByIndex(idx) {
+  const s = active();
+  if (idx < 0 || idx >= s.edges.length) return;
+  undoStack = { spaces: cloneSpaces(), current, selected };
+  s.edges.splice(idx, 1);
+  selectedEdge = null;
+  s.updated = Date.now();
+  persist();
+  renderEditor();
+  toast("Enlace eliminado", true);
+}
+
+function deleteSpaceById(id) {
+  if (spaces.length <= 1) {
+    toast("Necesitas al menos un espacio para pensar");
+    return;
+  }
+  const sp = spaces.find(s => s.id === id);
+  if (!sp) return;
+  undoStack = { spaces: cloneSpaces(), current, selected };
+  spaces = spaces.filter(s => s.id !== id);
+  if (current === id) current = spaces[0].id;
+  persist();
+  renderHome();
+  toast(`Espacio "${sp.title}" borrado`, true);
+}
+
+function renderHome() {
+  const cards = $("spaceCards");
+  cards.innerHTML = "";
+  let totalNodes = 0;
+
+  spaces.forEach((s, i) => {
+    totalNodes += s.nodes.length;
+    const el = document.createElement("article");
+    el.className = "space-card";
+    el.setAttribute("tabindex", "0");
+    el.innerHTML = `
+      ${spaces.length > 1 ? `<button class="space-card-del" data-del-space="${s.id}" title="Borrar espacio" aria-label="Borrar espacio ${esc(s.title)}">×</button>` : ""}
+      <div class="card-index">ESPACIO / ${String(i + 1).padStart(3, "0")}</div>
+      <h3>${esc(s.title)}</h3>
+      <p>${esc(s.description || "Un espacio abierto para desarrollar ideas.")}</p>
+      <div class="card-meta"><span>${s.nodes.length} conceptos</span><span>Abrir mapa ↗</span></div>
+    `;
+    el.onclick = e => {
+      const delBtn = e.target.closest("[data-del-space]");
+      if (delBtn) {
+        e.stopPropagation();
+        deleteSpaceById(delBtn.dataset.delSpace);
+        return;
+      }
+      openSpace(s.id);
+    };
+    el.onkeydown = e => {
+      if (e.key === "Enter" && e.target === el) openSpace(s.id);
+    };
+    cards.appendChild(el);
+  });
+
+  $("kpiSpaces").textContent = String(spaces.length).padStart(2, "0");
+  $("kpiNodes").textContent = String(totalNodes).padStart(2, "0");
+  $("spaceCount").textContent = String(spaces.length).padStart(2, "0") + " ESPACIO" + (spaces.length === 1 ? " EN CURSO" : "S EN CURSO");
+}
+
+function showHome() {
+  document.body.classList.remove("presentation");
+  $("home").classList.remove("hidden");
+  $("editor").classList.remove("active");
+  $("breadcrumb").textContent = "ARCHIVO";
+  $("backHomeBtn").style.display = "none";
+  renderHome();
+}
+
+function openSpace(id) {
+  current = id;
+  selected = null;
+  selectedEdge = null;
+  connectMode = false;
+  connectFirst = null;
+  scale = 1;
+  offset = { x: 0, y: 0 };
+  $("connectMode").classList.remove("accent-secondary");
+  $("home").classList.add("hidden");
+  $("editor").classList.add("active");
+  $("breadcrumb").textContent = "ARCHIVO / " + active().title.toUpperCase();
+  $("backHomeBtn").style.display = "inline-flex";
+  renderEditor();
+}
+
+function renderEditor() {
+  const s = active();
+  $("spaceTitle").textContent = s.title;
+  $("spaceDescription").textContent = s.description;
+  $("mapNumber").textContent = String(spaces.indexOf(s) + 1).padStart(3, "0");
+  $("nodeCount").textContent = `${String(s.nodes.length).padStart(2, "0")} CONCEPTOS · ${String(s.edges.length).padStart(2, "0")} CONEXIONES`;
+  renderMap();
+  renderInspector();
+  renderBreakdown();
+}
+
+function renderMap() {
+  const s = active(), svg = $("map");
+  svg.innerHTML = "";
+  const ns = "http://www.w3.org/2000/svg";
+  const make = (tag, attrs, parent = svg) => {
+    const e = document.createElementNS(ns, tag);
+    Object.entries(attrs || {}).forEach(([k, v]) => e.setAttribute(k, v));
+    parent.appendChild(e);
+    return e;
+  };
+  const g = make("g", { id: "viewport", transform: `translate(${offset.x} ${offset.y}) scale(${scale})` });
+
+  // Conexiones
+  s.edges.forEach(([a, b], idx) => {
+    const A = s.nodes.find(n => n.id === a), B = s.nodes.find(n => n.id === b);
+    if (!A || !B) return;
+    const hit = make("path", { d: `M ${A.x} ${A.y} L ${B.x} ${B.y}`, class: "edge-hit", "data-edge-idx": idx }, g);
+    make("path", { d: `M ${A.x} ${A.y} L ${B.x} ${B.y}`, class: "edge" + (selectedEdge === idx ? " selected" : ""), "data-edge-vis": idx }, g);
+    hit.addEventListener("pointerdown", e => {
+      e.stopPropagation();
+      selected = null;
+      selectedEdge = idx;
+      renderMap();
+      renderInspector();
+      renderBreakdown();
+    });
+  });
+
+  // Nodos (rectangulares sin radio, fiel a DESIGN.md)
+  s.nodes.forEach(n => {
+    const w = n.central ? 196 : 176, h = n.central ? 92 : 84, x = n.x - w / 2, y = n.y - h / 2;
+    const isExp = (n.category || "").toLowerCase().includes("explor");
+    const cls = "node " + (n.central ? "central " : "") + (isExp ? "exploracion " : "") + (selected === n.id ? "selected " : "") + (connectFirst === n.id ? "connect-source" : "");
+    const group = make("g", { class: cls.trim(), transform: `translate(${x} ${y})`, "data-id": n.id }, g);
+
+    make("rect", { width: w, height: h, rx: 0 }, group);
+    make("text", { x: 14, y: 20, class: "node-kicker" }, group).textContent = n.central ? "PUNTO DE PARTIDA" : (n.category || "CONCEPTO").toUpperCase().slice(0, 18);
+    make("text", { x: 14, y: 48, class: "node-title" }, group).textContent = n.title.length > 16 ? n.title.slice(0, 15) + "…" : n.title;
+    make("text", { x: 14, y: 68, class: "node-desc" }, group).textContent = (n.desc || "Añade una descripción").slice(0, 23) + (n.desc && n.desc.length > 23 ? "…" : "");
+
+    if (!n.central) {
+      const delG = make("g", { class: "node-del", transform: `translate(${w - 24}, 6)`, "aria-label": "Borrar concepto" }, group);
+      make("title", {}, delG).textContent = "Borrar concepto";
+      make("rect", { x: 0, y: 0, width: 18, height: 18, rx: 0 }, delG);
+      make("line", { x1: 5, y1: 5, x2: 13, y2: 13 }, delG);
+      make("line", { x1: 13, y1: 5, x2: 5, y2: 13 }, delG);
+      delG.addEventListener("pointerdown", e => e.stopPropagation());
+      delG.addEventListener("click", e => {
+        e.stopPropagation();
+        deleteNodeById(n.id);
+      });
+    }
+
+    group.addEventListener("pointerdown", e => {
+      e.stopPropagation();
+      if (connectMode) { handleConnect(n.id); return; }
+      selected = n.id;
+      selectedEdge = null;
+      svg.querySelectorAll(".node").forEach(el => el.classList.toggle("selected", el.dataset.id === n.id));
+      svg.querySelectorAll(".edge").forEach(el => el.classList.remove("selected"));
+      const startPt = clientToSvg(e.clientX, e.clientY);
+      drag = { id: n.id, el: group, w, h, startPt, origX: n.x, origY: n.y, moved: false };
+      renderInspector();
+      renderBreakdown();
+    });
+  });
+}
+
+function renderInspector() {
+  const s = active(), box = $("inspector");
+
+  if (selectedEdge !== null && s.edges[selectedEdge]) {
+    const [aId, bId] = s.edges[selectedEdge];
+    const nA = s.nodes.find(n => n.id === aId), nB = s.nodes.find(n => n.id === bId);
+    box.innerHTML = `
+      <div class="eyebrow">Inspector / Enlace</div>
+      <h3>Relación entre conceptos</h3>
+      <p style="font-size:13px;line-height:1.6;color:var(--ink-muted);margin-bottom:20px">
+        Enlazando <strong>${esc(nA?.title || "")}</strong> con <strong>${esc(nB?.title || "")}</strong>.
+      </p>
+      <div class="inspector-actions">
+        <button class="btn small danger" id="deleteEdgeBtn">✕ Eliminar enlace</button>
+      </div>
+      <p class="hint">Puedes volver a enlazar estos conceptos en cualquier momento usando «Conectar conceptos».</p>
+    `;
+    $("deleteEdgeBtn").onclick = () => deleteEdgeByIndex(selectedEdge);
+    return;
+  }
+
+  const n = s.nodes.find(x => x.id === selected);
+  if (!n) {
+    box.innerHTML = `
+      <div class="eyebrow">Inspector de concepto</div>
+      <h3>Explora una idea</h3>
+      <div class="inspector-empty">Selecciona un concepto del mapa o una fila del desglose para editar su contenido.</div>
+      <p class="hint">
+        <strong>Atajos</strong><br>
+        · Arrastra el fondo para mover el lienzo.<br>
+        · Pulsa una línea para quitar su enlace.<br>
+        · Usa × en la esquina para borrar un concepto.
+      </p>
+    `;
+    return;
+  }
+
+  box.innerHTML = `
+    <div class="eyebrow">Inspector / ${n.central ? "Núcleo" : "Concepto"}</div>
+    <h3>Editar concepto</h3>
+    <div class="field"><label for="fTitle">Título</label><input id="fTitle" value="${esc(n.title)}"></div>
+    <div class="field"><label for="fDesc">Descripción</label><textarea id="fDesc">${esc(n.desc)}</textarea></div>
+    <div class="field"><label for="fCat">Categoría</label><input id="fCat" value="${esc(n.category)}"></div>
+    <div class="field"><label for="fNotes">Notas de trabajo</label><textarea id="fNotes" placeholder="Referencias, preguntas, próximos pasos...">${esc(n.notes)}</textarea></div>
+    <div class="inspector-actions">
+      <button class="btn small primary" id="saveNode">Guardar cambios</button>
+      <button class="btn small" id="duplicateNode">Duplicar</button>
+      ${n.central ? "" : '<button class="btn small danger" id="deleteNode">✕ Borrar</button>'}
+    </div>
+    <p class="hint">Los cambios se guardan en tu navegador. Arrastra el concepto para reorganizar el mapa.</p>
+  `;
+
+  $("saveNode").onclick = () => {
+    n.title = $("fTitle").value.trim() || "Concepto sin título";
+    n.desc = $("fDesc").value;
+    n.category = $("fCat").value;
+    n.notes = $("fNotes").value;
+    active().updated = Date.now();
+    persist();
+    renderEditor();
+    toast("Concepto actualizado");
+  };
+
+  $("duplicateNode").onclick = () => {
+    const c = { ...n, id: uid(), title: n.title + " (copia)", x: Math.min(810, n.x + 40), y: Math.min(500, n.y + 40), central: false };
+    s.nodes.push(c);
+    selected = c.id;
+    persist();
+    renderEditor();
+    toast("Concepto duplicado");
+  };
+
+  if ($("deleteNode")) {
+    $("deleteNode").onclick = () => deleteNodeById(n.id);
+  }
+}
+
+/* Barras de comparación y tabla de desglose (Secciones 5.3 y 5.4 de DESIGN.md) */
+function renderBreakdown() {
+  const s = active();
+  const box = $("editorialAnalysis");
+
+  const connCounts = {};
+  s.nodes.forEach(n => { connCounts[n.id] = 0; });
+  s.edges.forEach(([a, b]) => {
+    if (connCounts[a] !== undefined) connCounts[a]++;
+    if (connCounts[b] !== undefined) connCounts[b]++;
+  });
+
+  const connectedCount = s.nodes.filter(n => connCounts[n.id] > 0).length;
+  const isolatedCount = s.nodes.length - connectedCount;
+  const maxVal = Math.max(connectedCount, isolatedCount, 1);
+  const wConn = connectedCount > 0 ? Math.max(2, (connectedCount / maxVal) * 100) : 0;
+  const wIso = isolatedCount > 0 ? Math.max(2, (isolatedCount / maxVal) * 100) : 0;
+
+  const pct = s.nodes.length ? Math.round((connectedCount / s.nodes.length) * 100) : 0;
+
+  box.innerHTML = `
+    <h2>Estructura del mapa</h2>
+    <div class="step-header">
+      <div class="step-title"><span>1.</span> Cohesión del archivo</div>
+      <div class="step-ratio">${pct} % enlazados</div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-row">
+        <span class="bar-label">Enlazados</span>
+        <div class="bar-track" role="img" aria-label="${connectedCount} conceptos enlazados">
+          <div class="bar-fill bar-fill--primary" style="width:${wConn}%"></div>
+        </div>
+        <span class="bar-value">${connectedCount} nodos</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Aislados</span>
+        <div class="bar-track" role="img" aria-label="${isolatedCount} conceptos aislados">
+          <div class="bar-fill bar-fill--secondary" style="width:${wIso}%"></div>
+        </div>
+        <span class="bar-value">${isolatedCount} nodos</span>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top:32px;margin-bottom:8px">
+      <h2>Desglose del archivo</h2>
+      <span class="eyebrow">Toca una fila para abrir su ficha</span>
+    </div>
+    <table class="breakdown-table">
+      <tbody>
+        ${s.nodes.map(n => `
+          <tr data-row-node="${n.id}" class="${selected === n.id ? "active-row" : ""}">
+            <td>${esc(n.title)}</td>
+            <td class="td-meta">${esc(n.category || "Concepto")}</td>
+            <td class="td-num">${connCounts[n.id]} ${connCounts[n.id] === 1 ? "enlace" : "enlaces"}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total en el espacio</td>
+          <td></td>
+          <td class="td-num">${s.nodes.length} conceptos</td>
+        </tr>
+      </tfoot>
+    </table>
+    <p class="breakdown-note">Cada fila abre el concepto en el lienzo y su ficha en el inspector.</p>
+  `;
+
+  box.querySelectorAll("[data-row-node]").forEach(row => {
+    row.onclick = () => {
+      selected = row.dataset.rowNode;
+      selectedEdge = null;
+      renderMap();
+      renderInspector();
+      renderBreakdown();
+      $("inspector").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    };
+  });
+}
+
+function handleConnect(id) {
+  if (!connectFirst) {
+    connectFirst = id;
+    renderMap();
+    toast("Elige el segundo concepto para enlazarlo");
+    return;
+  }
+  if (connectFirst !== id && !active().edges.some(e => e.includes(connectFirst) && e.includes(id))) {
+    active().edges.push([connectFirst, id]);
+    persist();
+    toast("Conceptos enlazados");
+  }
+  connectFirst = null;
+  connectMode = false;
+  $("connectMode").classList.remove("accent-secondary");
+  renderEditor();
+}
+
+/* Interacción del lienzo (Pan + Drag + Zoom) */
+$("map").addEventListener("pointerdown", e => {
+  if (e.target === $("map")) {
+    selected = null;
+    selectedEdge = null;
+    renderMap();
+    renderInspector();
+    renderBreakdown();
+    const startPt = clientToSvg(e.clientX, e.clientY);
+    panDrag = { startPt, origX: offset.x, origY: offset.y };
+    $("map").classList.add("panning");
+  }
+});
+
+window.addEventListener("pointermove", e => {
+  if (panDrag) {
+    const pt = clientToSvg(e.clientX, e.clientY);
+    offset.x = panDrag.origX + (pt.x - panDrag.startPt.x);
+    offset.y = panDrag.origY + (pt.y - panDrag.startPt.y);
+    const vp = document.getElementById("viewport");
+    if (vp) vp.setAttribute("transform", `translate(${offset.x} ${offset.y}) scale(${scale})`);
+    return;
+  }
+  if (!drag) return;
+  const pt = clientToSvg(e.clientX, e.clientY);
+  const dx = (pt.x - drag.startPt.x) / scale;
+  const dy = (pt.y - drag.startPt.y) / scale;
+  const s = active();
+  const n = s.nodes.find(x => x.id === drag.id);
+  if (n) {
+    n.x = Math.max(95, Math.min(805, drag.origX + dx));
+    n.y = Math.max(55, Math.min(505, drag.origY + dy));
+    drag.moved = true;
+    drag.el.setAttribute("transform", `translate(${n.x - drag.w / 2} ${n.y - drag.h / 2})`);
+    s.edges.forEach(([a, b], idx) => {
+      if (a === n.id || b === n.id) {
+        const A = s.nodes.find(x => x.id === a), B = s.nodes.find(x => x.id === b);
+        if (!A || !B) return;
+        const d = `M ${A.x} ${A.y} L ${B.x} ${B.y}`;
+        const hit = $("map").querySelector(`[data-edge-idx="${idx}"]`);
+        const vis = $("map").querySelector(`[data-edge-vis="${idx}"]`);
+        if (hit) hit.setAttribute("d", d);
+        if (vis) vis.setAttribute("d", d);
+      }
+    });
+  }
+});
+
+function stopPointers() {
+  if (panDrag) {
+    panDrag = null;
+    $("map").classList.remove("panning");
+  }
+  if (drag) {
+    if (drag.moved) persist();
+    drag = null;
+  }
+}
+
+window.addEventListener("pointerup", stopPointers);
+window.addEventListener("pointercancel", stopPointers);
+
+$("map").addEventListener("wheel", e => {
+  if (!$("editor").classList.contains("active")) return;
+  e.preventDefault();
+  scale = Math.max(0.6, Math.min(1.7, scale + (e.deltaY < 0 ? 0.06 : -0.06)));
+  const vp = document.getElementById("viewport");
+  if (vp) vp.setAttribute("transform", `translate(${offset.x} ${offset.y}) scale(${scale})`);
+}, { passive: false });
+
+$("addNode").onclick = () => {
+  const n = {
+    id: uid(),
+    title: "Nuevo concepto",
+    desc: "Describe este concepto.",
+    category: "Concepto",
+    notes: "",
+    x: Math.round(450 + (Math.random() * 140 - 70)),
+    y: Math.round(280 + (Math.random() * 110 - 55))
+  };
+  active().nodes.push(n);
+  selected = n.id;
+  selectedEdge = null;
+  persist();
+  renderEditor();
+  toast("Concepto añadido al mapa");
+};
+
+$("connectMode").onclick = () => {
+  connectMode = !connectMode;
+  connectFirst = null;
+  $("connectMode").classList.toggle("accent-secondary", connectMode);
+  renderMap();
+  toast(connectMode ? "Selecciona dos conceptos para enlazarlos" : "Modo conexión desactivado");
+};
+
+$("fitMap").onclick = () => { scale = 1; offset = { x: 0, y: 0 }; renderMap(); };
+$("zoomIn").onclick = () => { scale = Math.min(1.7, scale + 0.12); renderMap(); };
+$("zoomOut").onclick = () => { scale = Math.max(0.6, scale - 0.12); renderMap(); };
+
+function newModal(mode = "create", space = null) {
+  modalMode = mode;
+  editingSpace = space;
+  $("modal").classList.add("open");
+  $("modalEyebrow").textContent = mode === "edit" ? "EDITAR ESPACIO" : "NUEVO ESPACIO";
+  $("modalTitle").textContent = mode === "edit" ? "Afina el espacio." : "¿Qué idea quieres explorar?";
+  $("modalName").value = space?.title || "";
+  $("modalDesc").value = space?.description || "";
+  $("saveModal").textContent = mode === "edit" ? "Guardar cambios" : "Crear espacio";
+  setTimeout(() => $("modalName").focus(), 40);
+}
+
+$("createSpace").onclick = $("newSpaceTop").onclick = () => newModal("create");
+$("editSpaceBtn").onclick = () => newModal("edit", active());
+$("cancelModal").onclick = () => $("modal").classList.remove("open");
+$("modal").onclick = e => { if (e.target === $("modal")) $("modal").classList.remove("open"); };
+
+$("saveModal").onclick = () => {
+  const title = $("modalName").value.trim();
+  if (!title) { $("modalName").focus(); return; }
+  if (modalMode === "edit" && editingSpace) {
+    editingSpace.title = title;
+    editingSpace.description = $("modalDesc").value;
+    editingSpace.updated = Date.now();
+    persist();
+    $("modal").classList.remove("open");
+    $("breadcrumb").textContent = "ARCHIVO / " + title.toUpperCase();
+    renderEditor();
+    renderHome();
+    toast("Espacio actualizado");
+    return;
+  }
+  const s = {
+    id: uid(),
+    title,
+    description: $("modalDesc").value,
+    updated: Date.now(),
+    nodes: [{ id: "root", title: "IDEA CENTRAL", desc: "Define la idea que quieres explorar.", category: "Núcleo", notes: "", x: 450, y: 280, central: true }],
+    edges: []
+  };
+  spaces.unshift(s);
+  current = s.id;
+  persist();
+  $("modal").classList.remove("open");
+  openSpace(s.id);
+  toast("Nuevo espacio creado");
+};
+
+function enterPresentation() {
+  document.body.classList.add("presentation");
+  $("breadcrumb").textContent = "PRESENTACIÓN";
+  renderMap();
+  $("editor").scrollIntoView({ behavior: "smooth" });
+}
+
+function exitPresentation() {
+  document.body.classList.remove("presentation");
+  if ($("editor").classList.contains("active")) {
+    $("breadcrumb").textContent = "ARCHIVO / " + active().title.toUpperCase();
+    renderMap();
+  }
+}
+
+$("presentMode").onclick = enterPresentation;
+$("exitPresent").onclick = exitPresentation;
+$("backHomeBtn").onclick = showHome;
+$("brandHome").onclick = showHome;
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    exitPresentation();
+    $("modal").classList.remove("open");
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") {
+    e.preventDefault();
+    persist();
+    toast("Archivo guardado");
+  }
+});
+
+renderHome();
+persist();
+</script>
+</body>
+</html>
