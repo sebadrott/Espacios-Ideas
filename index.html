@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fundación Soledad — Archivo de ideas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FBFAF7;
+  --surface-track: #EBE8E0;
+  --ink: #1A1A1A;
+  --ink-muted: #5E5E5E;
+  --ink-faint: #6F6C66;
+  --border: #E2DFD7;
+  --accent-primary: #C94A2B;
+  --accent-secondary: #2D5A72;
+
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --editorial-max: 720px;
+  --workspace-max: 1120px;
+  --bar-height: 16px;
+  --radius: 0px;
+  --hairline: 1px solid var(--border);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea, select { font: inherit; border-radius: var(--radius); }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent-secondary); outline-offset: 2px; }
+
+h1, h2, h3, .kpi-value {
+  font-family: var(--font-display);
+  font-weight: 400;
+  margin: 0;
+}
+
+.eyebrow, .label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+.topbar {
+  border-bottom: var(--hairline);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.topbar-inner {
+  max-width: var(--workspace-max);
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.brand {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--ink);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.brand span { color: var(--accent-primary); }
+
+.breadcrumb {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-left: var(--hairline);
+  padding-left: var(--space-4);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.btn {
+  border: var(--hairline);
+  background: transparent;
+  color: var(--ink);
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover { border-color: var(--ink); }
+
+.btn.primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.btn.primary:hover { background: #333333; border-color: #333333; }
+
+.btn.accent-secondary {
+  background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  color: var(--bg);
+}
+
+.btn.danger {
+  color: var(--accent-primary);
+  border-color: var(--border);
+}
+
+.btn.danger:hover {
+  border-color: var(--accent-primary);
+  background: #f8efec;
+}
+
+.btn.small { padding: 6px 11px; font-size: 11px; }
+
+.home {
+  max-width: var(--editorial-max);
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-6) var(--space-16);
+}
+
+.home.hidden { display: none; }
+
+.hero { margin-bottom: var(--space-12); }
+
+.hero h1 {
+  font-size: clamp(38px, 6vw, 52px);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.hero h1 em { color: var(--accent-primary); font-style: italic; }
+
+.hero-lead {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-muted);
+  margin: 0 0 var(--space-6);
+  max-width: 580px;
+}
+
+.hero-lead strong { color: var(--ink); font-weight: 600; }
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.callout {
+  border-left: 2px solid var(--accent-primary);
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+}
+
+.callout p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.callout-sub {
+  margin-top: var(--space-2) !important;
+  font-family: var(--font-text) !important;
+  font-size: 12px !important;
+  color: var(--ink-muted) !important;
+}
+
+.kpi-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: var(--hairline);
+  margin-bottom: var(--space-12);
+  background: var(--bg);
+}
+
+.kpi-cell { padding: var(--space-4) var(--space-6); }
+.kpi-cell + .kpi-cell { border-left: var(--hairline); }
+
+.kpi-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.kpi-value { font-size: 30px; line-height: 1; color: var(--ink); }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: var(--hairline);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-6);
+  gap: var(--space-4);
+}
+
+.section-head h2 { font-size: 26px; line-height: 1.2; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.space-card {
+  position: relative;
+  border: var(--hairline);
+  background: var(--bg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  min-height: 185px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.space-card:hover { border-color: var(--ink); background: #F6F4EE; }
+
+.space-card-del {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  width: 28px;
+  height: 28px;
+  border: var(--hairline);
+  background: var(--bg);
+  color: var(--ink-faint);
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.space-card-del:hover { color: var(--accent-primary); border-color: var(--accent-primary); }
+
+.card-index {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  padding-right: 32px;
+}
+
+.space-card h3 { font-size: 26px; line-height: 1.15; margin: var(--space-4) 0 var(--space-2); }
+
+.space-card p { font-size: 13px; line-height: 1.5; color: var(--ink-muted); margin: 0; }
+
+.card-meta {
+  margin-top: auto;
+  padding-top: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.editorial-footer {
+  margin-top: var(--space-16);
+  padding-top: var(--space-4);
+  border-top: var(--hairline);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+.editor {
+  display: none;
+  max-width: var(--workspace-max);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) var(--space-16);
+}
+
+.editor.active { display: block; }
+
+.editor-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: var(--hairline);
+}
+
+.editor-head-text { max-width: 620px; min-width: 0; }
+
+.editor-head h1 {
+  font-size: clamp(32px, 4.5vw, 44px);
+  line-height: 1.08;
+  margin: var(--space-2) 0;
+}
+
+.editor-head p { font-size: 14px; color: var(--ink-muted); margin: 0; }
+
+.editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  border: var(--hairline);
+  background: var(--bg);
+}
+
+.canvas-shell {
+  background: var(--surface-track);
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+}
+
+.canvas-top {
+  position: absolute;
+  z-index: 3;
+  top: var(--space-3);
+  left: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+.canvas-top > * { pointer-events: auto; }
+
+.canvas-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: var(--bg);
+  border: var(--hairline);
+  padding: 5px 9px;
+}
+
+.canvas-tools { display: flex; gap: var(--space-1); }
+.canvas-tools .btn { background: var(--bg); }
+
+#map {
+  width: 100%;
+  height: 560px;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+#map.panning { cursor: grabbing; }
+
+.edge-hit { stroke: transparent; stroke-width: 16; fill: none; cursor: pointer; }
+
+.edge {
+  stroke: #C8C3B8;
+  stroke-width: 1.5;
+  fill: none;
+  pointer-events: none;
+  transition: stroke 0.15s ease;
+}
+
+.edge.selected { stroke: var(--accent-primary); stroke-width: 2.5; }
+
+.node { cursor: grab; }
+.node:active { cursor: grabbing; }
+
+.node rect { fill: var(--bg); stroke: var(--border); stroke-width: 1.2; }
+.node.central rect { fill: var(--ink); stroke: var(--ink); }
+.node.selected rect { stroke: var(--accent-primary); stroke-width: 2.2; }
+.node.connect-source rect { stroke: var(--accent-secondary); stroke-width: 2.2; stroke-dasharray: 4 3; }
+
+.node text { pointer-events: none; fill: var(--ink); }
+.node.central text { fill: var(--bg); }
+
+.node .node-kicker { font-size: 9px; letter-spacing: 1.3px; fill: var(--accent-secondary); }
+.node.central .node-kicker,
+.node.exploracion .node-kicker { fill: var(--accent-primary); }
+.node .node-title { font-family: var(--font-display); font-size: 20px; }
+.node .node-desc { font-size: 10.5px; fill: var(--ink-muted); }
+.node.central .node-desc { fill: #D5D2CA; }
+
+.node-del { cursor: pointer; }
+.node-del rect { fill: var(--bg); stroke: var(--border); stroke-width: 1; }
+.node-del line { stroke: var(--ink-faint); stroke-width: 1.4; }
+.node-del:hover rect { stroke: var(--accent-primary); fill: #f8efec; }
+.node-del:hover line { stroke: var(--accent-primary); }
+
+.inspector {
+  background: var(--bg);
+  border-left: var(--hairline);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+}
+
+.inspector h3 { font-size: 26px; line-height: 1.15; margin: var(--space-2) 0 var(--space-4); }
+
+.field { display: grid; gap: 5px; margin-bottom: var(--space-4); }
+
+.field label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: var(--hairline);
+  background: var(--bg);
+  padding: 9px 10px;
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+}
+
+.field input:focus,
+.field textarea:focus { border-color: var(--ink); }
+
+.field textarea { min-height: 78px; resize: vertical; }
+
+.inspector-empty {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--ink-muted);
+  margin-bottom: var(--space-4);
+}
+
+.inspector-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.hint {
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.55;
+  margin-top: auto;
+  padding-top: var(--space-6);
+  border-top: var(--hairline);
+}
+
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+  color: var(--ink-faint);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.editorial-analysis { max-width: var(--editorial-max); margin: var(--space-12) auto 0; }
+.editorial-analysis h2 { font-size: 24px; margin-bottom: var(--space-6); }
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.step-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.step-title span { color: var(--ink-faint); font-weight: 400; margin-right: 4px; }
+.step-ratio { font-size: 11px; font-weight: 600; color: var(--accent-primary); text-align: right; }
+
+.bar-group { display: grid; gap: var(--space-2); margin-bottom: var(--space-8); }
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 92px 1fr 78px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.bar-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.bar-track {
+  background: var(--surface-track);
+  height: var(--bar-height);
+  width: 100%;
+  overflow: hidden;
+}
+
+.bar-fill { height: 100%; transition: width 0.4s ease-out; }
+.bar-fill--primary { background: var(--accent-primary); }
+.bar-fill--secondary { background: var(--accent-secondary); }
+.bar-value { font-size: 11px; color: var(--ink); text-align: right; }
+
+.breakdown-table { width: 100%; border-collapse: collapse; margin-top: var(--space-4); }
+
+.breakdown-table tr {
+  border-bottom: var(--hairline);
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.breakdown-table tbody tr:hover { background: #F4F2EC; }
+.breakdown-table tbody tr.active-row { background: #F4EFE8; }
+.breakdown-table td { padding: 9px 4px; font-size: 12px; color: var(--ink); }
+.breakdown-table td.td-meta { color: var(--ink-muted); font-size: 11px; }
+.breakdown-table td.td-num { text-align: right; white-space: nowrap; }
+.breakdown-table tfoot tr { border-bottom: none; cursor: default; }
+.breakdown-table tfoot td { font-weight: 600; padding-top: 12px; }
+
+.breakdown-note { font-size: 11px; color: var(--ink-muted); margin-top: var(--space-3); }
+
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.35);
+  z-index: 40;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.modal-backdrop.open { display: flex; }
+
+.modal {
+  background: var(--bg);
+  border: 1px solid var(--ink);
+  width: min(440px, 100%);
+  padding: var(--space-8);
+}
+
+.modal h2 { font-size: 30px; margin: var(--space-2) 0 var(--space-6); }
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.toast {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 10px 16px;
+  font-size: 12px;
+  z-index: 50;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+.toast-undo {
+  border: 1px solid rgba(251, 250, 247, 0.4);
+  background: transparent;
+  color: var(--bg);
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.toast-undo:hover { background: rgba(251, 250, 247, 0.14); }
+
+.present-exit { display: none !important; }
+.presentation .present-exit { display: inline-flex !important; }
+.presentation .topbar,
+.presentation .inspector,
+.presentation .canvas-tools,
+.presentation .editor-actions,
+.presentation .editorial-analysis { display: none !important; }
+
+.presentation .editor { max-width: 1400px; padding-top: var(--space-6); }
+.presentation .editor-head { margin-bottom: var(--space-4); padding-bottom: var(--space-4); }
+.presentation .editor-layout { grid-template-columns: 1fr; }
+.presentation .canvas-shell { min-height: calc(100vh - 200px); }
+.presentation #map { height: calc(100vh - 200px); min-height: 440px; }
+
+@media (max-width: 920px) {
+  .editor-head { flex-direction: column; align-items: flex-start; }
+  .editor-layout { grid-template-columns: 1fr; }
+  .inspector { border-left: none; border-top: var(--hairline); }
+  .canvas-shell, #map { min-height: 460px; height: 460px; }
+}
+
+@media (max-width: 600px) {
+  .topbar-inner { padding: var(--space-3) var(--space-4); }
+  .breadcrumb { display: none; }
+  .home { padding: var(--space-8) var(--space-4) var(--space-12); }
+  .editor { padding: var(--space-6) var(--space-4) var(--space-12); }
+  .kpi-pair { grid-template-columns: 1fr; margin-bottom: var(--space-8); }
+  .kpi-cell + .kpi-cell { border-left: none; border-top: var(--hairline); }
+  .cards { grid-template-columns: 1fr; }
+  .canvas-shell, #map { min-height: 390px; height: 390px; }
+  .bar-row { grid-template-columns: 78px 1fr 64px; gap: var(--space-2); }
+  .step-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .modal { padding: var(--space-6); }
+  .toast { left: var(--space-4); right: var(--space-4); bottom: var(--space-4); justify-content: space-between; }
+  .presentation #map { height: calc(100vh - 180px); min-height: 340px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-group">
+      <button class="brand" id="brandHome" aria-label="Ir al inicio">IDEA <span>·</span> SPACE</button>
+      <div class="breadcrumb" id="breadcrumb">ARCHIVO</div>
+    </div>
+    <div class="top-actions">
+      <button class="btn small" id="backHomeBtn" style="display:none">← Archivo</button>
+      <button class="btn small primary" id="newSpaceTop">＋ Nuevo espacio</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="home" id="home">
+    <div class="hero">
+      <div class="eyebrow">Laboratorio de pensamiento · Archivo privado</div>
+      <h1>Las ideas necesitan <em>espacio</em> para volverse claras.</h1>
+      <p class="hero-lead">Un lugar sobrio para pensar despacio. Registra conceptos, <strong>descubre relaciones</strong> y convierte intuiciones dispersas en mapas que tienen forma —y sentido—.</p>
+      <div class="hero-actions">
+        <button class="btn primary" id="createSpace">Crear un espacio nuevo ↗</button>
+      </div>
+      <div class="callout">
+        <p>“Una idea no aparece terminada. Aparece como pregunta; se vuelve mapa cuando la conectas.”</p>
+        <p class="callout-sub">Cada mapa se guarda solo, en tu navegador. Sin cuentas, sin nube, sin ruido.</p>
+      </div>
+    </div>
+
+    <div class="kpi-pair" aria-label="Resumen del archivo">
+      <div class="kpi-cell">
+        <span class="kpi-label">Espacios abiertos</span>
+        <div class="kpi-value" id="kpiSpaces">01</div>
+      </div>
+      <div class="kpi-cell">
+        <span class="kpi-label">Conceptos en el archivo</span>
+        <div class="kpi-value" id="kpiNodes">10</div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <h2>Espacios de pensamiento</h2>
+      <span class="eyebrow" id="spaceCount">01 ESPACIO EN CURSO</span>
+    </div>
+
+    <div class="cards" id="spaceCards"></div>
+
+    <footer class="editorial-footer">
+      <span>IDEA · SPACE — ARCHIVO PRIVADO</span>
+      <span>Pensar · Conectar · Desarrollar</span>
+    </footer>
+  </section>
+
+  <section class="editor" id="editor">
+    <div class="editor-head">
+      <div class="editor-head-text">
+        <div class="eyebrow">MAPA / <span id="mapNumber">001</span></div>
+        <h1 id="spaceTitle">Fundación Soledad</h1>
+        <p id="spaceDescription">Nombrar la soledad para transformarla en vínculo.</p>
+      </div>
+      <div class="editor-actions">
+        <button class="btn small" id="resetContent" title="Restaurar contenido base de la fundación">↺ Restaurar base</button>
+        <button class="btn small" id="exportBtn" title="Exportar como documento PDF">↓ Exportar PDF</button>
+        <button class="btn small" id="exportJsonBtn" title="Descargar respaldo JSON">↓ JSON</button>
+        <button class="btn small" id="importBtn" title="Cargar un espacio desde JSON">↑ Importar</button>
+        <input type="file" id="importFile" accept=".json,application/json" style="display:none">
+        <button class="btn small" id="editSpaceBtn">Editar espacio</button>
+        <button class="btn small" id="addNode">＋ Añadir concepto</button>
+        <button class="btn small" id="connectMode">Conectar conceptos</button>
+        <button class="btn small" id="fitMap">Centrar mapa</button>
+        <button class="btn small primary" id="presentMode">Presentar ↗</button>
+      </div>
+    </div>
+
+    <div class="editor-layout">
+      <div class="canvas-shell">
+        <div class="canvas-top">
+          <span class="canvas-label">LIENZO / EXPLORACIÓN LIBRE</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            <button class="btn small primary present-exit" id="exitPresent">← Volver al editor</button>
+            <div class="canvas-tools">
+              <button class="btn small" id="zoomOut" title="Alejar" aria-label="Alejar">−</button>
+              <button class="btn small" id="zoomIn" title="Acercar" aria-label="Acercar">＋</button>
+            </div>
+          </div>
+        </div>
+        <svg id="map" viewBox="0 0 900 560" aria-label="Mapa de ideas interactivo"></svg>
+      </div>
+
+      <aside class="inspector" id="inspector" aria-label="Inspector de concepto"></aside>
+    </div>
+
+    <div class="statusbar">
+      <span id="nodeCount">10 CONCEPTOS</span>
+      <span id="saveStatus">GUARDADO EN ESTE NAVEGADOR</span>
+    </div>
+
+    <div class="editorial-analysis" id="editorialAnalysis"></div>
+  </section>
+</main>
+
+<div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="eyebrow" id="modalEyebrow">NUEVO ESPACIO</div>
+    <h2 id="modalTitle">¿Qué idea quieres explorar?</h2>
+    <div class="field">
+      <label for="modalName">Nombre</label>
+      <input id="modalName" placeholder="Ej. Fundación Soledad">
+    </div>
+    <div class="field">
+      <label for="modalDesc">Descripción</label>
+      <textarea id="modalDesc" placeholder="¿Qué pregunta guía este espacio?"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="cancelModal">Cancelar</button>
+      <button class="btn primary" id="saveModal">Crear espacio</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <span id="toastMsg"></span>
+  <button class="toast-undo" id="toastUndo" style="display:none">Deshacer</button>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const uid = () => Math.random().toString(36).slice(2, 10);
+
+/* === CONTENIDO BASE: FUNDACIÓN SOLEDAD === */
+const CONTENT_VERSION = "2024-11-17-fundacion-soledad";
+const STORAGE_KEY = "ideaspace.v2";
+
+const starter = () => ({
+  id: uid(),
+  title: "Fundación Soledad",
+  description: "Nombrar la soledad para transformarla en vínculo. Acompañamos a niños, jóvenes, adultos y personas mayores en Chile.",
+  updated: Date.now(),
+  nodes: [
+    { id: "root", title: "SOLEDAD", desc: "Nombrar la soledad para transformarla en vínculo.", category: "Núcleo", notes: "La soledad no es un problema individual: es una condición social que atraviesa generaciones. Chile envejece, las ciudades aíslan, las pantallas acompañan sin tocar. La fundación existe para nombrar, acompañar y tejer — no para llenar el vacío, sino para recordar que nadie debería habitarlo solo.", x: 450, y: 280, central: true },
+
+    { id: "vision", title: "Visión", desc: "Una sociedad donde nadie envejece ni crece en silencio.", category: "Estratégico", notes: "Imaginamos un Chile donde la soledad no sea un destino silencioso, sino una condición que la comunidad sabe nombrar y acompañar. La visión no es eliminar la soledad: es que nadie la atraviese sin compañía.", x: 230, y: 90 },
+    { id: "horizonte", title: "Horizonte", desc: "Corto, mediano y largo plazo: el tiempo del vínculo.", category: "Estratégico", notes: "Corto plazo: pilotos territoriales, alianzas locales, primeras visitas. Mediano plazo: programas consolidados, evaluación de impacto, expansión regional. Largo plazo: política pública, cambio cultural, institucionalidad del cuidado. El vínculo no se improvisa, se sostiene.", x: 450, y: 70 },
+    { id: "estrategia", title: "Estrategia", desc: "Cómo pasamos del diagnóstico al vínculo sostenido.", category: "Estratégico", notes: "Tres frentes: diagnóstico territorial, programas de continuidad y evaluación de impacto. Sin estrategia, la misión es intención; con estrategia, es sistema.", x: 670, y: 90 },
+
+    { id: "mision", title: "Misión", desc: "Nombrar, acompañar y tejer vínculos en cada etapa de la vida.", category: "Estratégico", notes: "Tres verbos: nombrar la soledad como problema social, acompañar con presencia sostenida y tejer redes entre personas, familias e instituciones.", x: 230, y: 470 },
+    { id: "estructura", title: "Estructura", desc: "Un fondo que sostiene el vínculo en el tiempo.", category: "Estratégico", notes: "El Fondo de Acompañamiento financia programas de continuidad y garantiza que el vínculo no dependa de la voluntad individual sino de una arquitectura institucional. Sin fondo, el acompañamiento es gesto; con fondo, es política.", x: 670, y: 470 },
+
+    { id: "ninez", title: "Niñez", desc: "Acompañar la soledad temprana antes de que se vuelva hábito.", category: "Segmento", notes: "La soledad infantil se disfraza de timidez, de pantallas, de silencio en la sala de clases. Acompañar a tiempo es prevenir una vida de distancia.", x: 95, y: 180 },
+    { id: "juventud", title: "Juventud", desc: "Convertir la desconexión en comunidad, no en scrolling.", category: "Segmento", notes: "La generación más conectada reporta más soledad. No falta tecnología: falta presencia.", x: 805, y: 180 },
+    { id: "adultez", title: "Adultez", desc: "Sostener a quienes sostienen: la soledad de la carga silenciosa.", category: "Segmento", notes: "El adulto que trabaja, cuida y responde por otros rara vez tiene un lugar donde ser cuidado. Fortalecemos redes de apoyo entre pares.", x: 95, y: 380 },
+    { id: "vejez", title: "Vejez", desc: "Acompañar el final de la vida con dignidad y compañía.", category: "Segmento", notes: "Miles de personas mayores viven solas o pasan semanas sin una conversación significativa. Visitas, redes barriales y vínculos intergeneracionales.", x: 805, y: 380 }
+  ],
+  edges: [
+    ["root", "vision"], ["root", "horizonte"], ["root", "estrategia"],
+    ["root", "mision"], ["root", "estructura"],
+    ["root", "ninez"], ["root", "juventud"], ["root", "adultez"], ["root", "vejez"],
+    ["vision", "estrategia"], ["estrategia", "horizonte"], ["horizonte", "estructura"],
+    ["mision", "estructura"],
+    ["estrategia", "ninez"], ["estrategia", "juventud"], ["estrategia", "adultez"], ["estrategia", "vejez"],
+    ["ninez", "vejez"], ["adultez", "juventud"]
+  ]
+});
+
+function loadSpaces() {
+  const savedVersion = localStorage.getItem("ideaspace.contentVersion");
+  if (savedVersion !== CONTENT_VERSION) {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.setItem("ideaspace.contentVersion", CONTENT_VERSION);
+    return [starter()];
+  }
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    if (Array.isArray(parsed) && parsed.length) return parsed;
+  } catch (e) { /* fallback */ }
+  return [starter()];
+}
+
+let spaces = loadSpaces();
+let current = spaces[0].id;
+let selected = null;
+let selectedEdge = null;
+let connectMode = false;
+let connectFirst = null;
+let scale = 1;
+let offset = { x: 0, y: 0 };
+let drag = null;
+let panDrag = null;
+let modalMode = "create";
+let editingSpace = null;
+let undoStack = null;
+let toastTimer = null;
+
+function persist() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(spaces));
+  $("saveStatus").textContent = "GUARDADO EN ESTE NAVEGADOR · " + new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" });
+}
+
+function active() {
+  return spaces.find(s => s.id === current) || spaces[0];
+}
+
+function cloneSpaces() {
+  return JSON.parse(JSON.stringify(spaces));
+}
+
+function esc(s) {
+  return String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function toast(msg, canUndo = false) {
+  $("toastMsg").textContent = msg;
+  $("toastUndo").style.display = canUndo ? "inline-block" : "none";
+  $("toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    $("toast").classList.remove("show");
+    undoStack = null;
+  }, canUndo ? 4500 : 2200);
+}
+
+$("toastUndo").onclick = () => {
+  if (!undoStack) return;
+  spaces = undoStack.spaces;
+  current = undoStack.current;
+  selected = undoStack.selected;
+  selectedEdge = null;
+  undoStack = null;
+  $("toast").classList.remove("show");
+  persist();
+  if ($("editor").classList.contains("active")) renderEditor();
+  else renderHome();
+  toast("Cambio deshecho");
+};
+
+function clientToSvg(clientX, clientY) {
+  const svg = $("map");
+  const ctm = svg.getScreenCTM();
+  if (!ctm) return { x: 0, y: 0 };
+  const pt = svg.createSVGPoint();
+  pt.x = clientX;
+  pt.y = clientY;
+  return pt.matrixTransform(ctm.inverse());
+}
+
+function deleteNodeById(id) {
+  const s = active();
+  const node = s.nodes.find(x => x.id === id);
+  if (!node || node.central) return;
+  undoStack = { spaces: cloneSpaces(), current, selected };
+  s.nodes = s.nodes.filter(x => x.id !== id);
+  s.edges = s.edges.filter(e => e[0] !== id && e[1] !== id);
+  if (selected === id) selected = null;
+  selectedEdge = null;
+  s.updated = Date.now();
+  persist();
+  renderEditor();
+  toast(`"${node.title}" salió del mapa`, true);
+}
+
+function deleteEdgeByIndex(idx) {
+  const s = active();
+  if (idx < 0 || idx >= s.edges.length) return;
+  undoStack = { spaces: cloneSpaces(), current, selected };
+  s.edges.splice(idx, 1);
+  selectedEdge = null;
+  s.updated = Date.now();
+  persist();
+  renderEditor();
+  toast("Enlace eliminado", true);
+}
+
+function deleteSpaceById(id) {
+  if (spaces.length <= 1) {
+    toast("Necesitas al menos un espacio para pensar");
+    return;
+  }
+  const sp = spaces.find(s => s.id === id);
+  if (!sp) return;
+  undoStack = { spaces: cloneSpaces(), current, selected };
+  spaces = spaces.filter(s => s.id !== id);
+  if (current === id) current = spaces[0].id;
+  persist();
+  renderHome();
+  toast(`Espacio "${sp.title}" borrado`, true);
+}
+
+function renderHome() {
+  const cards = $("spaceCards");
+  cards.innerHTML = "";
+  let totalNodes = 0;
+
+  spaces.forEach((s, i) => {
+    totalNodes += s.nodes.length;
+    const el = document.createElement("article");
+    el.className = "space-card";
+    el.setAttribute("tabindex", "0");
+    el.innerHTML = `
+      ${spaces.length > 1 ? `<button class="space-card-del" data-del-space="${s.id}" title="Borrar espacio" aria-label="Borrar espacio ${esc(s.title)}">×</button>` : ""}
+      <div class="card-index">ESPACIO / ${String(i + 1).padStart(3, "0")}</div>
+      <h3>${esc(s.title)}</h3>
+      <p>${esc(s.description || "Un espacio abierto para desarrollar ideas.")}</p>
+      <div class="card-meta"><span>${s.nodes.length} conceptos</span><span>Abrir mapa ↗</span></div>
+    `;
+    el.onclick = e => {
+      const delBtn = e.target.closest("[data-del-space]");
+      if (delBtn) {
+        e.stopPropagation();
+        deleteSpaceById(delBtn.dataset.delSpace);
+        return;
+      }
+      openSpace(s.id);
+    };
+    el.onkeydown = e => {
+      if (e.key === "Enter" && e.target === el) openSpace(s.id);
+    };
+    cards.appendChild(el);
+  });
+
+  $("kpiSpaces").textContent = String(spaces.length).padStart(2, "0");
+  $("kpiNodes").textContent = String(totalNodes).padStart(2, "0");
+  $("spaceCount").textContent = String(spaces.length).padStart(2, "0") + " ESPACIO" + (spaces.length === 1 ? " EN CURSO" : "S EN CURSO");
+}
+
+function showHome() {
+  document.body.classList.remove("presentation");
+  $("home").classList.remove("hidden");
+  $("editor").classList.remove("active");
+  $("breadcrumb").textContent = "ARCHIVO";
+  $("backHomeBtn").style.display = "none";
+  renderHome();
+}
+
+function openSpace(id) {
+  current = id;
+  selected = null;
+  selectedEdge = null;
+  connectMode = false;
+  connectFirst = null;
+  scale = 1;
+  offset = { x: 0, y: 0 };
+  $("connectMode").classList.remove("accent-secondary");
+  $("home").classList.add("hidden");
+  $("editor").classList.add("active");
+  $("breadcrumb").textContent = "ARCHIVO / " + active().title.toUpperCase();
+  $("backHomeBtn").style.display = "inline-flex";
+  renderEditor();
+}
+
+function renderEditor() {
+  const s = active();
+  $("spaceTitle").textContent = s.title;
+  $("spaceDescription").textContent = s.description;
+  $("mapNumber").textContent = String(spaces.indexOf(s) + 1).padStart(3, "0");
+  $("nodeCount").textContent = `${String(s.nodes.length).padStart(2, "0")} CONCEPTOS · ${String(s.edges.length).padStart(2, "0")} CONEXIONES`;
+  renderMap();
+  renderInspector();
+  renderBreakdown();
+}
+
+function renderMap() {
+  const s = active(), svg = $("map");
+  svg.innerHTML = "";
+  const ns = "http://www.w3.org/2000/svg";
+  const make = (tag, attrs, parent = svg) => {
+    const e = document.createElementNS(ns, tag);
+    Object.entries(attrs || {}).forEach(([k, v]) => e.setAttribute(k, v));
+    parent.appendChild(e);
+    return e;
+  };
+  const g = make("g", { id: "viewport", transform: `translate(${offset.x} ${offset.y}) scale(${scale})` });
+
+  s.edges.forEach(([a, b], idx) => {
+    const A = s.nodes.find(n => n.id === a), B = s.nodes.find(n => n.id === b);
+    if (!A || !B) return;
+    const hit = make("path", { d: `M ${A.x} ${A.y} L ${B.x} ${B.y}`, class: "edge-hit", "data-edge-idx": idx }, g);
+    make("path", { d: `M ${A.x} ${A.y} L ${B.x} ${B.y}`, class: "edge" + (selectedEdge === idx ? " selected" : ""), "data-edge-vis": idx }, g);
+    hit.addEventListener("pointerdown", e => {
+      e.stopPropagation();
+      selected = null;
+      selectedEdge = idx;
+      renderMap();
+      renderInspector();
+      renderBreakdown();
+    });
+  });
+
+  s.nodes.forEach(n => {
+    const w = n.central ? 196 : 176, h = n.central ? 92 : 84, x = n.x - w / 2, y = n.y - h / 2;
+    const isExp = (n.category || "").toLowerCase().includes("explor");
+    const cls = "node " + (n.central ? "central " : "") + (isExp ? "exploracion " : "") + (selected === n.id ? "selected " : "") + (connectFirst === n.id ? "connect-source" : "");
+    const group = make("g", { class: cls.trim(), transform: `translate(${x} ${y})`, "data-id": n.id }, g);
+
+    make("rect", { width: w, height: h, rx: 0 }, group);
+    make("text", { x: 14, y: 20, class: "node-kicker" }, group).textContent = n.central ? "PUNTO DE PARTIDA" : (n.category || "CONCEPTO").toUpperCase().slice(0, 18);
+    make("text", { x: 14, y: 48, class: "node-title" }, group).textContent = n.title.length > 16 ? n.title.slice(0, 15) + "…" : n.title;
+    make("text", { x: 14, y: 68, class: "node-desc" }, group).textContent = (n.desc || "Añade una descripción").slice(0, 23) + (n.desc && n.desc.length > 23 ? "…" : "");
+
+    if (!n.central) {
+      const delG = make("g", { class: "node-del", transform: `translate(${w - 24}, 6)`, "aria-label": "Borrar concepto" }, group);
+      make("title", {}, delG).textContent = "Borrar concepto";
+      make("rect", { x: 0, y: 0, width: 18, height: 18, rx: 0 }, delG);
+      make("line", { x1: 5, y1: 5, x2: 13, y2: 13 }, delG);
+      make("line", { x1: 13, y1: 5, x2: 5, y2: 13 }, delG);
+      delG.addEventListener("pointerdown", e => e.stopPropagation());
+      delG.addEventListener("click", e => {
+        e.stopPropagation();
+        deleteNodeById(n.id);
+      });
+    }
+
+    group.addEventListener("pointerdown", e => {
+      e.stopPropagation();
+      if (connectMode) { handleConnect(n.id); return; }
+      selected = n.id;
+      selectedEdge = null;
+      svg.querySelectorAll(".node").forEach(el => el.classList.toggle("selected", el.dataset.id === n.id));
+      svg.querySelectorAll(".edge").forEach(el => el.classList.remove("selected"));
+      const startPt = clientToSvg(e.clientX, e.clientY);
+      drag = { id: n.id, el: group, w, h, startPt, origX: n.x, origY: n.y, moved: false };
+      renderInspector();
+      renderBreakdown();
+    });
+  });
+}
+
+function renderInspector() {
+  const s = active(), box = $("inspector");
+
+  if (selectedEdge !== null && s.edges[selectedEdge]) {
+    const [aId, bId] = s.edges[selectedEdge];
+    const nA = s.nodes.find(n => n.id === aId), nB = s.nodes.find(n => n.id === bId);
+    box.innerHTML = `
+      <div class="eyebrow">Inspector / Enlace</div>
+      <h3>Relación entre conceptos</h3>
+      <p style="font-size:13px;line-height:1.6;color:var(--ink-muted);margin-bottom:20px">
+        Enlazando <strong>${esc(nA?.title || "")}</strong> con <strong>${esc(nB?.title || "")}</strong>.
+      </p>
+      <div class="inspector-actions">
+        <button class="btn small danger" id="deleteEdgeBtn">✕ Eliminar enlace</button>
+      </div>
+      <p class="hint">Puedes volver a enlazar estos conceptos en cualquier momento usando «Conectar conceptos».</p>
+    `;
+    $("deleteEdgeBtn").onclick = () => deleteEdgeByIndex(selectedEdge);
+    return;
+  }
+
+  const n = s.nodes.find(x => x.id === selected);
+  if (!n) {
+    box.innerHTML = `
+      <div class="eyebrow">Inspector de concepto</div>
+      <h3>Explora una idea</h3>
+      <div class="inspector-empty">Selecciona un concepto del mapa o una fila del desglose para editar su contenido.</div>
+      <p class="hint">
+        <strong>Atajos</strong><br>
+        · Arrastra el fondo para mover el lienzo.<br>
+        · Pulsa una línea para quitar su enlace.<br>
+        · Usa × en la esquina para borrar un concepto.
+      </p>
+    `;
+    return;
+  }
+
+  box.innerHTML = `
+    <div class="eyebrow">Inspector / ${n.central ? "Núcleo" : "Concepto"}</div>
+    <h3>Editar concepto</h3>
+    <div class="field"><label for="fTitle">Título</label><input id="fTitle" value="${esc(n.title)}"></div>
+    <div class="field"><label for="fDesc">Descripción</label><textarea id="fDesc">${esc(n.desc)}</textarea></div>
+    <div class="field"><label for="fCat">Categoría</label><input id="fCat" value="${esc(n.category)}"></div>
+    <div class="field"><label for="fNotes">Notas de trabajo</label><textarea id="fNotes" placeholder="Referencias, preguntas, próximos pasos...">${esc(n.notes)}</textarea></div>
+    <div class="inspector-actions">
+      <button class="btn small primary" id="saveNode">Guardar cambios</button>
+      <button class="btn small" id="duplicateNode">Duplicar</button>
+      ${n.central ? "" : '<button class="btn small danger" id="deleteNode">✕ Borrar</button>'}
+    </div>
+    <p class="hint">Los cambios se guardan en tu navegador. Arrastra el concepto para reorganizar el mapa.</p>
+  `;
+
+  $("saveNode").onclick = () => {
+    n.title = $("fTitle").value.trim() || "Concepto sin título";
+    n.desc = $("fDesc").value;
+    n.category = $("fCat").value;
+    n.notes = $("fNotes").value;
+    active().updated = Date.now();
+    persist();
+    renderEditor();
+    toast("Concepto actualizado");
+  };
+
+  $("duplicateNode").onclick = () => {
+    const c = { ...n, id: uid(), title: n.title + " (copia)", x: Math.min(810, n.x + 40), y: Math.min(500, n.y + 40), central: false };
+    s.nodes.push(c);
+    selected = c.id;
+    persist();
+    renderEditor();
+    toast("Concepto duplicado");
+  };
+
+  if ($("deleteNode")) {
+    $("deleteNode").onclick = () => deleteNodeById(n.id);
+  }
+}
+
+function renderBreakdown() {
+  const s = active();
+  const box = $("editorialAnalysis");
+
+  const connCounts = {};
+  s.nodes.forEach(n => { connCounts[n.id] = 0; });
+  s.edges.forEach(([a, b]) => {
+    if (connCounts[a] !== undefined) connCounts[a]++;
+    if (connCounts[b] !== undefined) connCounts[b]++;
+  });
+
+  const connectedCount = s.nodes.filter(n => connCounts[n.id] > 0).length;
+  const isolatedCount = s.nodes.length - connectedCount;
+  const maxVal = Math.max(connectedCount, isolatedCount, 1);
+  const wConn = connectedCount > 0 ? Math.max(2, (connectedCount / maxVal) * 100) : 0;
+  const wIso = isolatedCount > 0 ? Math.max(2, (isolatedCount / maxVal) * 100) : 0;
+
+  const pct = s.nodes.length ? Math.round((connectedCount / s.nodes.length) * 100) : 0;
+
+  box.innerHTML = `
+    <h2>Estructura del mapa</h2>
+    <div class="step-header">
+      <div class="step-title"><span>1.</span> Cohesión del archivo</div>
+      <div class="step-ratio">${pct} % enlazados</div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-row">
+        <span class="bar-label">Enlazados</span>
+        <div class="bar-track" role="img" aria-label="${connectedCount} conceptos enlazados">
+          <div class="bar-fill bar-fill--primary" style="width:${wConn}%"></div>
+        </div>
+        <span class="bar-value">${connectedCount} nodos</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Aislados</span>
+        <div class="bar-track" role="img" aria-label="${isolatedCount} conceptos aislados">
+          <div class="bar-fill bar-fill--secondary" style="width:${wIso}%"></div>
+        </div>
+        <span class="bar-value">${isolatedCount} nodos</span>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top:32px;margin-bottom:8px">
+      <h2>Desglose del archivo</h2>
+      <span class="eyebrow">Toca una fila para abrir su ficha</span>
+    </div>
+    <table class="breakdown-table">
+      <tbody>
+        ${s.nodes.map(n => `
+          <tr data-row-node="${n.id}" class="${selected === n.id ? "active-row" : ""}">
+            <td>${esc(n.title)}</td>
+            <td class="td-meta">${esc(n.category || "Concepto")}</td>
+            <td class="td-num">${connCounts[n.id]} ${connCounts[n.id] === 1 ? "enlace" : "enlaces"}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total en el espacio</td>
+          <td></td>
+          <td class="td-num">${s.nodes.length} conceptos</td>
+        </tr>
+      </tfoot>
+    </table>
+    <p class="breakdown-note">Cada fila abre el concepto en el lienzo y su ficha en el inspector.</p>
+  `;
+
+  box.querySelectorAll("[data-row-node]").forEach(row => {
+    row.onclick = () => {
+      selected = row.dataset.rowNode;
+      selectedEdge = null;
+      renderMap();
+      renderInspector();
+      renderBreakdown();
+      $("inspector").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    };
+  });
+}
+
+function handleConnect(id) {
+  if (!connectFirst) {
+    connectFirst = id;
+    renderMap();
+    toast("Elige el segundo concepto para enlazarlo");
+    return;
+  }
+  if (connectFirst !== id && !active().edges.some(e => e.includes(connectFirst) && e.includes(id))) {
+    active().edges.push([connectFirst, id]);
+    persist();
+    toast("Conceptos enlazados");
+  }
+  connectFirst = null;
+  connectMode = false;
+  $("connectMode").classList.remove("accent-secondary");
+  renderEditor();
+}
+
+$("map").addEventListener("pointerdown", e => {
+  if (e.target === $("map")) {
+    selected = null;
+    selectedEdge = null;
+    renderMap();
+    renderInspector();
+    renderBreakdown();
+    const startPt = clientToSvg(e.clientX, e.clientY);
+    panDrag = { startPt, origX: offset.x, origY: offset.y };
+    $("map").classList.add("panning");
+  }
+});
+
+window.addEventListener("pointermove", e => {
+  if (panDrag) {
+    const pt = clientToSvg(e.clientX, e.clientY);
+    offset.x = panDrag.origX + (pt.x - panDrag.startPt.x);
+    offset.y = panDrag.origY + (pt.y - panDrag.startPt.y);
+    const vp = document.getElementById("viewport");
+    if (vp) vp.setAttribute("transform", `translate(${offset.x} ${offset.y}) scale(${scale})`);
+    return;
+  }
+  if (!drag) return;
+  const pt = clientToSvg(e.clientX, e.clientY);
+  const dx = (pt.x - drag.startPt.x) / scale;
+  const dy = (pt.y - drag.startPt.y) / scale;
+  const s = active();
+  const n = s.nodes.find(x => x.id === drag.id);
+  if (n) {
+    n.x = Math.max(95, Math.min(805, drag.origX + dx));
+    n.y = Math.max(55, Math.min(505, drag.origY + dy));
+    drag.moved = true;
+    drag.el.setAttribute("transform", `translate(${n.x - drag.w / 2} ${n.y - drag.h / 2})`);
+    s.edges.forEach(([a, b], idx) => {
+      if (a === n.id || b === n.id) {
+        const A = s.nodes.find(x => x.id === a), B = s.nodes.find(x => x.id === b);
+        if (!A || !B) return;
+        const d = `M ${A.x} ${A.y} L ${B.x} ${B.y}`;
+        const hit = $("map").querySelector(`[data-edge-idx="${idx}"]`);
+        const vis = $("map").querySelector(`[data-edge-vis="${idx}"]`);
+        if (hit) hit.setAttribute("d", d);
+        if (vis) vis.setAttribute("d", d);
+      }
+    });
+  }
+});
+
+function stopPointers() {
+  if (panDrag) {
+    panDrag = null;
+    $("map").classList.remove("panning");
+  }
+  if (drag) {
+    if (drag.moved) persist();
+    drag = null;
+  }
+}
+
+window.addEventListener("pointerup", stopPointers);
+window.addEventListener("pointercancel", stopPointers);
+
+$("map").addEventListener("wheel", e => {
+  if (!$("editor").classList.contains("active")) return;
+  e.preventDefault();
+  scale = Math.max(0.6, Math.min(1.7, scale + (e.deltaY < 0 ? 0.06 : -0.06)));
+  const vp = document.getElementById("viewport");
+  if (vp) vp.setAttribute("transform", `translate(${offset.x} ${offset.y}) scale(${scale})`);
+}, { passive: false });
+
+$("addNode").onclick = () => {
+  const n = {
+    id: uid(),
+    title: "Nuevo concepto",
+    desc: "Describe este concepto.",
+    category: "Concepto",
+    notes: "",
+    x: Math.round(450 + (Math.random() * 140 - 70)),
+    y: Math.round(280 + (Math.random() * 110 - 55))
+  };
+  active().nodes.push(n);
+  selected = n.id;
+  selectedEdge = null;
+  persist();
+  renderEditor();
+  toast("Concepto añadido al mapa");
+};
+
+$("connectMode").onclick = () => {
+  connectMode = !connectMode;
+  connectFirst = null;
+  $("connectMode").classList.toggle("accent-secondary", connectMode);
+  renderMap();
+  toast(connectMode ? "Selecciona dos conceptos para enlazarlos" : "Modo conexión desactivado");
+};
+
+$("fitMap").onclick = () => { scale = 1; offset = { x: 0, y: 0 }; renderMap(); };
+$("zoomIn").onclick = () => { scale = Math.min(1.7, scale + 0.12); renderMap(); };
+$("zoomOut").onclick = () => { scale = Math.max(0.6, scale - 0.12); renderMap(); };
+
+/* === RESTAURAR CONTENIDO BASE === */
+$("resetContent").onclick = () => {
+  if (!confirm("¿Restaurar el contenido base de la Fundación Soledad? Se perderán los cambios locales de este navegador.")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  spaces = [starter()];
+  current = spaces[0].id;
+  selected = null;
+  selectedEdge = null;
+  persist();
+  renderEditor();
+  toast("Contenido base restaurado");
+};
+
+/* === EXPORTAR: PDF editorial + JSON de respaldo === */
+
+// --- Exportar PDF (documento editorial con el diseño de DESIGN.md, generado desde los datos del espacio) ---
+$("exportBtn").onclick = () => {
+  const s = active();
+
+  const ordered = [
+    ...s.nodes.filter(n => n.central),
+    ...s.nodes.filter(n => !n.central)
+  ];
+  const position = {};
+  ordered.forEach((n, i) => { position[n.id] = i + 1; });
+
+  const connCounts = {};
+  s.nodes.forEach(n => { connCounts[n.id] = 0; });
+  s.edges.forEach(([a, b]) => {
+    if (connCounts[a] !== undefined) connCounts[a]++;
+    if (connCounts[b] !== undefined) connCounts[b]++;
+  });
+
+  const total = s.nodes.length;
+  const connectedCount = s.nodes.filter(n => connCounts[n.id] > 0).length;
+  const isolatedCount = total - connectedCount;
+  const pct = total ? Math.round((connectedCount / total) * 100) : 0;
+  const avg = total ? ((s.edges.length * 2) / total).toFixed(1).replace(".", ",") : "0";
+
+  const fecha = new Date().toLocaleDateString("es-CL", {
+    year: "numeric", month: "long", day: "numeric"
+  });
+
+  const pad = n => String(n).padStart(2, "0");
+  const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+  const nice = t => {
+    const x = String(t || "").trim();
+    return x.length > 3 && x === x.toUpperCase() ? x.charAt(0) + x.slice(1).toLowerCase() : x;
+  };
+
+  /* --- Hero: primera frase de la descripción como título, el resto como bajada --- */
+  const desc = (s.description || "").trim();
+  const m = desc.match(/^(.+?[.!?])(?:\s+([\s\S]*))?$/);
+  const headline = m ? m[1].replace(/\.$/, "") : (desc || s.title);
+  const restDesc = m && m[2] ? m[2].trim() : "";
+  const lede = (restDesc ? esc(restDesc) + " " : "")
+    .replace("niños, jóvenes, adultos y personas mayores", "<strong>niños, jóvenes, adultos y personas mayores</strong>")
+    + `Este mapa conecta ${total} ${total === 1 ? "concepto" : "conceptos"} entre sí.`;
+
+  /* --- Conceptos --- */
+  const core = ordered.length && ordered[0].central ? ordered[0] : null;
+  const others = ordered.filter(n => !n.central);
+
+  const conceptHtml = n => {
+    const enl = connCounts[n.id] || 0;
+    const notas = (n.notes || "").trim();
+    return `
+    <article class="concept">
+      <div class="concept-head">
+        <p class="eyebrow"><span class="num">${pad(position[n.id])}</span>${esc(n.category || "Concepto")}</p>
+        <span class="concept-links">${plural(enl, "enlace", "enlaces")}</span>
+      </div>
+      <h3>${esc(nice(n.title))}</h3>
+      ${n.desc ? `<p class="concept-sub">${esc(n.desc)}</p>` : ""}
+      ${notas ? `<p class="label">Notas de trabajo</p><p class="notes">${esc(notas)}</p>` : ""}
+    </article>`;
+  };
+
+  const coreHtml = core ? `
+  <article class="callout">
+    <div class="meta-row">
+      <p class="eyebrow"><span>${pad(position[core.id])}</span> · Núcleo</p>
+      <span class="concept-links">${plural(connCounts[core.id] || 0, "enlace", "enlaces")}</span>
+    </div>
+    <h2>${esc(nice(core.title))}</h2>
+    ${core.desc ? `<p class="concept-sub">${esc(core.desc)}</p>` : ""}
+    ${(core.notes || "").trim() ? `<p class="label">Notas de trabajo</p><p class="notes">${esc(core.notes.trim())}</p>` : ""}
+  </article>` : "";
+
+  const headings = {
+    "estratégico": "Marco estratégico",
+    "estrategico": "Marco estratégico",
+    "segmento": "Segmentos por etapa de vida"
+  };
+  const groups = [];
+  others.forEach(n => {
+    const cat = (n.category || "").trim() || "Concepto";
+    let g = groups.find(x => x.key === cat.toLowerCase());
+    if (!g) { g = { key: cat.toLowerCase(), name: cat, nodes: [] }; groups.push(g); }
+    g.nodes.push(n);
+  });
+  const groupsHtml = groups.map(g => `
+  <section>
+    <h2>${esc(headings[g.key] || g.name)}</h2>
+    ${g.nodes.map(conceptHtml).join("")}
+  </section>`).join("");
+
+  /* --- Estructura del mapa: barras de enlaces por concepto (normalizadas al mayor) --- */
+  const maxLinks = Math.max(1, ...Object.values(connCounts));
+  const barsHtml = [...ordered]
+    .sort((a, b) => connCounts[b.id] - connCounts[a.id])
+    .map(n => {
+      const c = connCounts[n.id] || 0;
+      const nm = esc(nice(n.title));
+      const w = ((c / maxLinks) * 100).toFixed(2);
+      return `<div class="bar-row"><span class="label">${nm}</span><div class="bar-track" role="img" aria-label="${nm}: ${plural(c, "enlace", "enlaces")}"><div class="bar-fill${n.central ? " bar-fill--core" : ""}" style="width:${w}%${c === 0 ? ";min-width:0" : ""}"></div></div><span class="bar-value">${c}</span></div>`;
+    }).join("");
+
+  /* --- Lista de enlaces --- */
+  const validEdges = s.edges
+    .map(([a, b]) => [s.nodes.find(n => n.id === a), s.nodes.find(n => n.id === b)])
+    .filter(([A, B]) => A && B);
+  const linksHtml = validEdges.map(([A, B], i) =>
+    `<li><span class="n">${pad(i + 1)}</span><span>${esc(nice(A.title))}<span class="arrow">→</span>${esc(nice(B.title))}</span></li>`
+  ).join("");
+
+  const html = `<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(s.title)} — Mapa de pensamiento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBFAF7;
+    --surface-track: #EBE8E0;
+    --ink: #1A1A1A;
+    --ink-muted: #5E5E5E;
+    --ink-faint: #6F6C66;
+    --border: #E2DFD7;
+    --accent-senda: #C94A2B;
+    --accent-senama: #2D5A72;
+
+    --font-display: "Instrument Serif", "Tiempos Headline", Georgia, serif;
+    --font-text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --space-16: 64px;
+
+    --content-max: 680px;
+    --bar-height: 16px;
+    --radius: 0;
+    --hairline: 1px solid var(--border);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { background: var(--bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-text);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-6);
+  }
+
+  h1, h2, h3, .kpi-value { font-family: var(--font-display); font-weight: 400; margin: 0; }
+
+  .eyebrow, .label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .eyebrow { font-size: 11px; letter-spacing: 0.12em; }
+
+  h1 { font-size: 44px; line-height: 1.1; letter-spacing: -0.01em; margin: var(--space-4) 0 var(--space-4); }
+  .lede { font-size: 15px; line-height: 1.5; color: var(--ink-muted); margin: 0; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: var(--hairline);
+    border-radius: var(--radius);
+    margin-top: var(--space-12);
+    break-inside: avoid;
+  }
+  .kpi { padding: var(--space-4) var(--space-6); }
+  .kpi + .kpi { border-left: var(--hairline); }
+  .kpi-value { font-size: 28px; line-height: 1; margin-top: var(--space-2); }
+
+  section { margin-top: var(--space-12); }
+  h2 { font-size: 24px; line-height: 1.2; margin-bottom: var(--space-6); break-after: avoid; }
+
+  .concept {
+    padding: var(--space-6) 0;
+    border-top: var(--hairline);
+    break-inside: avoid;
+  }
+  .concept:last-child { border-bottom: var(--hairline); }
+  .concept-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+  }
+  .concept-head .num { margin-right: var(--space-2); }
+  .concept-links { font-size: 11px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+  h3 { font-size: 24px; line-height: 1.2; margin: var(--space-2) 0 var(--space-2); }
+  .concept-sub { font-size: 14px; font-weight: 600; line-height: 1.3; margin: 0 0 var(--space-4); }
+  .concept .label, .callout .label { margin-bottom: var(--space-1); }
+  .notes { font-size: 14px; line-height: 1.55; margin: 0; }
+
+  .callout {
+    border-left: 2px solid var(--accent-senda);
+    padding-left: var(--space-4);
+    margin-top: var(--space-12);
+    break-inside: avoid;
+  }
+  .callout h2 { margin: var(--space-2) 0 var(--space-3); font-size: 28px; }
+  .callout .concept-sub { font-size: 15px; font-weight: 400; color: var(--ink-muted); }
+  .callout .concept-links { color: var(--accent-senda); }
+  .callout .meta-row { display: flex; justify-content: space-between; align-items: baseline; }
+
+  .step { break-inside: avoid; }
+  .step-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .step-title { font-size: 14px; font-weight: 600; line-height: 1.3; margin: 0; }
+  .step-title .num { font-weight: 400; color: var(--ink-faint); margin-right: var(--space-1); }
+  .step-ratio { font-size: 11px; font-weight: 600; color: var(--accent-senda); white-space: nowrap; }
+
+  .bars { display: grid; row-gap: var(--space-2); }
+  .bar-row { display: flex; align-items: center; gap: var(--space-3); }
+  .bar-row .label { width: 84px; flex: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-track { background: var(--surface-track); height: var(--bar-height); flex: 1; border-radius: var(--radius); }
+  .bar-fill { height: 100%; min-width: 6px; background: var(--accent-senama); }
+  .bar-fill--core { background: var(--accent-senda); }
+  .bar-value { width: 70px; flex: none; text-align: right; font-size: 11px; color: var(--ink); }
+
+  .note { font-size: 10px; line-height: 1.5; color: var(--ink-muted); margin: var(--space-4) 0 0; }
+  .structure-note { font-size: 11px; line-height: 1.4; color: var(--ink-muted); margin: var(--space-3) 0 var(--space-8); }
+  .keep { break-inside: avoid; }
+
+  .links { columns: 2; column-gap: var(--space-8); list-style: none; margin: 0; padding: 0; }
+  .links li {
+    display: flex;
+    gap: var(--space-3);
+    padding: 9px 0;
+    border-bottom: var(--hairline);
+    font-size: 11px;
+    line-height: 1.4;
+    break-inside: avoid;
+  }
+  .links .n { width: 20px; color: var(--ink-faint); flex: none; }
+  .links .arrow { color: var(--ink-faint); padding: 0 var(--space-1); }
+
+  footer {
+    margin-top: var(--space-12);
+    padding-top: var(--space-4);
+    border-top: var(--hairline);
+    break-inside: avoid;
+  }
+  footer p { font-size: 11px; line-height: 1.4; margin: var(--space-2) 0 0; }
+
+  @page { size: A4; margin: 14mm 15mm; }
+
+  @media print {
+    .page { padding: 0; max-width: none; }
+    h1 { font-size: 40px; }
+    section { margin-top: 32px; }
+    .callout { margin-top: 40px; }
+    footer { margin-top: 24px; }
+    .concept { padding: 20px 0; }
+  }
+
+  @media (max-width: 520px) {
+    h1 { font-size: 34px; }
+    .links { columns: 1; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <header>
+    <p class="eyebrow">${esc(s.title)} · Mapa de pensamiento · ${esc(fecha)}</p>
+    <h1>${esc(headline)}</h1>
+    <p class="lede">${lede}</p>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi">
+      <p class="label">Conceptos</p>
+      <p class="kpi-value">${total}</p>
+    </div>
+    <div class="kpi">
+      <p class="label">Enlaces</p>
+      <p class="kpi-value">${s.edges.length}</p>
+    </div>
+  </div>
+
+  ${coreHtml}
+  ${groupsHtml}
+
+  <section>
+    <h2>Estructura del mapa</h2>
+
+    <div class="keep">
+      <div class="kpis" style="margin-top:0">
+        <div class="kpi">
+          <p class="label">Cohesión</p>
+          <p class="kpi-value">${pct} %</p>
+        </div>
+        <div class="kpi">
+          <p class="label">Conceptos enlazados</p>
+          <p class="kpi-value">${connectedCount} de ${total}</p>
+        </div>
+      </div>
+      <p class="structure-note">Aislados: ${isolatedCount} ${isolatedCount === 1 ? "concepto sin enlaces" : "conceptos sin enlaces"}.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <p class="step-title"><span class="num">1.</span>Enlaces por concepto</p>
+        <span class="step-ratio">Promedio: ${avg} por concepto</span>
+      </div>
+      <div class="bars">${barsHtml}</div>
+      <p class="note">Cuenta enlaces entrantes y salientes. Barras normalizadas al concepto con más enlaces (${esc(nice([...ordered].sort((a, b) => connCounts[b.id] - connCounts[a.id])[0]?.title || ""))} = 100 %). En rojo, el concepto núcleo.</p>
+    </div>
+  </section>
+
+  ${validEdges.length ? `
+  <section>
+    <h2>Enlaces entre conceptos</h2>
+    <ol class="links">${linksHtml}</ol>
+  </section>` : ""}
+
+  <footer>
+    <p class="label">Archivo</p>
+    <p>Idea · Space — archivo privado · ${esc(s.title)} · generado el ${esc(fecha)}</p>
+  </footer>
+
+</main>
+</body>
+</html>`;
+
+  const w = window.open("", "_blank");
+  if (!w) {
+    toast("Permite ventanas emergentes para exportar el PDF");
+    return;
+  }
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+
+  // Imprime una sola vez, cuando las tipografías ya cargaron
+  let printed = false;
+  const doPrint = () => {
+    if (printed) return;
+    printed = true;
+    try { w.focus(); w.print(); } catch (e) {}
+  };
+  const afterFonts = () => {
+    const ready = (w.document.fonts && w.document.fonts.ready) ? w.document.fonts.ready : Promise.resolve();
+    ready.then(() => setTimeout(doPrint, 250));
+  };
+  if (w.document.readyState === "complete") afterFonts();
+  else w.addEventListener("load", afterFonts);
+  setTimeout(doPrint, 4000);
+
+  toast("Documento listo · elige «Guardar como PDF»");
+};
+
+// --- Exportar JSON (respaldo técnico) ---
+$("exportJsonBtn").onclick = () => {
+  const s = active();
+  const payload = {
+    format: "ideaspace.space.v1",
+    exportedAt: new Date().toISOString(),
+    space: s
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const safe = (s.title || "espacio").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "espacio";
+  a.href = url;
+  a.download = `${safe}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast("Respaldo JSON descargado");
+};
+
+$("importBtn").onclick = () => $("importFile").click();
+
+$("importFile").onchange = e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      let space = null;
+      if (data && data.space && Array.isArray(data.space.nodes)) {
+        space = data.space;
+      } else if (data && Array.isArray(data.nodes) && Array.isArray(data.edges)) {
+        space = data;
+      }
+      if (!space) throw new Error("Formato inválido");
+      if (!space.id) space.id = uid();
+      if (spaces.some(s => s.id === space.id)) space.id = uid();
+      if (!Array.isArray(space.nodes) || !Array.isArray(space.edges)) throw new Error("Formato inválido");
+      if (!space.nodes.some(n => n.central)) {
+        space.nodes[0].central = true;
+      }
+      space.updated = Date.now();
+      space.title = (space.title || "Espacio importado") + " (importado)";
+      spaces.unshift(space);
+      current = space.id;
+      persist();
+      openSpace(space.id);
+      toast("Espacio importado");
+    } catch (err) {
+      toast("Archivo JSON inválido");
+    } finally {
+      e.target.value = "";
+    }
+  };
+  reader.readAsText(file);
+};
+
+function newModal(mode = "create", space = null) {
+  modalMode = mode;
+  editingSpace = space;
+  $("modal").classList.add("open");
+  $("modalEyebrow").textContent = mode === "edit" ? "EDITAR ESPACIO" : "NUEVO ESPACIO";
+  $("modalTitle").textContent = mode === "edit" ? "Afina el espacio." : "¿Qué idea quieres explorar?";
+  $("modalName").value = space?.title || "";
+  $("modalDesc").value = space?.description || "";
+  $("saveModal").textContent = mode === "edit" ? "Guardar cambios" : "Crear espacio";
+  setTimeout(() => $("modalName").focus(), 40);
+}
+
+$("createSpace").onclick = $("newSpaceTop").onclick = () => newModal("create");
+$("editSpaceBtn").onclick = () => newModal("edit", active());
+$("cancelModal").onclick = () => $("modal").classList.remove("open");
+$("modal").onclick = e => { if (e.target === $("modal")) $("modal").classList.remove("open"); };
+
+$("saveModal").onclick = () => {
+  const title = $("modalName").value.trim();
+  if (!title) { $("modalName").focus(); return; }
+  if (modalMode === "edit" && editingSpace) {
+    editingSpace.title = title;
+    editingSpace.description = $("modalDesc").value;
+    editingSpace.updated = Date.now();
+    persist();
+    $("modal").classList.remove("open");
+    $("breadcrumb").textContent = "ARCHIVO / " + title.toUpperCase();
+    renderEditor();
+    renderHome();
+    toast("Espacio actualizado");
+    return;
+  }
+  const s = {
+    id: uid(),
+    title,
+    description: $("modalDesc").value,
+    updated: Date.now(),
+    nodes: [{ id: "root", title: "IDEA CENTRAL", desc: "Define la idea que quieres explorar.", category: "Núcleo", notes: "", x: 450, y: 280, central: true }],
+    edges: []
+  };
+  spaces.unshift(s);
+  current = s.id;
+  persist();
+  $("modal").classList.remove("open");
+  openSpace(s.id);
+  toast("Nuevo espacio creado");
+};
+
+function enterPresentation() {
+  document.body.classList.add("presentation");
+  $("breadcrumb").textContent = "PRESENTACIÓN";
+  renderMap();
+  $("editor").scrollIntoView({ behavior: "smooth" });
+}
+
+function exitPresentation() {
+  document.body.classList.remove("presentation");
+  if ($("editor").classList.contains("active")) {
+    $("breadcrumb").textContent = "ARCHIVO / " + active().title.toUpperCase();
+    renderMap();
+  }
+}
+
+$("presentMode").onclick = enterPresentation;
+$("exitPresent").onclick = exitPresentation;
+$("backHomeBtn").onclick = showHome;
+$("brandHome").onclick = showHome;
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    exitPresentation();
+    $("modal").classList.remove("open");
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") {
+    e.preventDefault();
+    persist();
+    toast("Archivo guardado");
+  }
+});
+
+renderHome();
+persist();
+</script>
+</body>
+</html>
